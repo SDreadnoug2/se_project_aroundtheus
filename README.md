@@ -1,13 +1,7 @@
-# Project 3: Around The U.S.
+Project: Around the U.S.
 
-### Overview
+This project is a practice in responsive page development, with plans for additional functionality behind buttons later on.
 
-- Intro
-- Figma
-- Images
-
-**Intro**
-
-This project is made so all the elements are displayed correctly on popular screen sizes.
+Implemented media queries in order to achieve a more responsive layout.
 
 Link to the site: https://sdreadnoug2.github.io/se_project_aroundtheus/index.html
