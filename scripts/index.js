@@ -28,11 +28,70 @@ const initialCards = [
 let editButton = document.querySelector(".profile__edit-button");
 let modalBox = document.querySelector("#JSmodal");
 let closeButton = document.querySelector(".modal__close");
+const profileName = document.querySelector(".profile__name");
+const profileDescription = document.querySelector(".profile__description");
+const inputName = document.querySelector("#modalName");
+const inputDescription = document.querySelector("#modalDescription");
+const modalSubmit = document.querySelector(".modal__button");
+const cardListEl = document.querySelector(".cards__list");
+const cardTemplate =
+  document.querySelector("#card-template").content.firstElementChild;
 
-editButton.addEventListener("click", () => {
-  modalBox.classList.add("modal__opened");
-});
+function toggleModal() {
+  modalBox.classList.toggle("modal__opened");
+}
+editButton.addEventListener("click", toggleModal);
+closeButton.addEventListener("click", toggleModal);
 
-closeButton.addEventListener("click", () => {
-  modalBox.classList.remove("modal__opened");
+function handleFormSubmit(evt) {
+  evt.preventDefault();
+  profileName.textContent = inputName.value;
+  profileDescription.textContent = inputDescription.value;
+  toggleModal();
+}
+
+modalSubmit.addEventListener("click", handleFormSubmit);
+
+function getCardElement(cardData) {
+  const cardElement = cardTemplate.cloneNode(true);
+  const cardImage = cardElement.querySelector(".cards__image");
+  const cardTitle = cardElement.querySelector(".cards__title");
+  cardTitle.textContent = cardData.name;
+  cardImage.src = cardData.link;
+  cardImage.alt = cardData.name;
+  return cardElement;
+}
+
+initialCards.forEach((cardData) => {
+  const cardElement = getCardElement(cardData);
+  cardListEl.prepend(cardElement);
 });
+/*
+Declare a getCardElement() function with one parameter named data. You’ll be passing objects of the array to it. The function should:
+clone the template element with all its content and store it in a cardElement variable
+access the card title and image and store them in variables
+set the path to the image to the link field of the object
+set the image alt text to the name field of the object
+set the card title to the name field of the object, too
+return the ready HTML element with the filled-in data
+Iterate over the cards array using a loop, and in each iteration:
+Run your getCardElement() function on the card object to create the HTML element.
+Use the appropriate built-in DOM method to add this HTML element to the page.
+
+function getCardElement(data) {
+  const cardElement = document.querySelector("#card-template").content;
+  const cardName = initialCards.name;
+  const cardImage = initialCards.link;
+}
+
+initialCards.forEach((cardData) => {
+  const cardElement = cardTemplate.cloneNode(true);
+  const cardImageEl = cardElement.querySelector(".cards__image");
+  const cardTitleEl = cardElement.querySelector(".cards__title");
+
+  cardTitleEl.textContent = cardData.name;
+  cardImageEl = cardData.link;
+
+  cardListEl.append(cardElement);
+});
+*/

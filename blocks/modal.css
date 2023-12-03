@@ -78,6 +78,7 @@
   border-radius: 2px;
   border-style: none;
   align-content: center;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 590px) {
