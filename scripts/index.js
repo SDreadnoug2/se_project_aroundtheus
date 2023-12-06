@@ -25,32 +25,37 @@ const initialCards = [
   },
 ];
 
-let editButton = document.querySelector(".profile__edit-button");
-let modalBox = document.querySelector("#JSmodal");
-let closeButton = document.querySelector(".modal__close");
+const editButton = document.querySelector(".profile__edit-button");
+const modalBox = document.querySelector("#JSmodal");
+const closeButton = document.querySelector(".modal__close");
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
 const inputName = document.querySelector("#modalName");
 const inputDescription = document.querySelector("#modalDescription");
-const modalSubmit = document.querySelector(".modal__button");
+const modalSubmit = document.querySelector(".modal__form");
 const cardListEl = document.querySelector(".cards__list");
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
 
 function toggleModal() {
-  modalBox.classList.toggle("modal__opened");
+  modalBox.classList.toggle("modal_opened");
 }
-editButton.addEventListener("click", toggleModal);
+editButton.addEventListener("click", () => {
+  toggleModal();
+  inputName.value = profileName.textContent;
+  inputDescription.value = profileDescription.textContent;
+});
+
 closeButton.addEventListener("click", toggleModal);
 
-function handleFormSubmit(evt) {
-  evt.preventDefault();
+function handleFormSubmit(e) {
+  e.preventDefault();
   profileName.textContent = inputName.value;
   profileDescription.textContent = inputDescription.value;
   toggleModal();
 }
 
-modalSubmit.addEventListener("click", handleFormSubmit);
+modalSubmit.addEventListener("submit", handleFormSubmit);
 
 function getCardElement(cardData) {
   const cardElement = cardTemplate.cloneNode(true);
