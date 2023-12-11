@@ -16,6 +16,7 @@
   flex-direction: column;
   list-style-type: none;
   margin: 0;
+  position: relative;
 }
 
 .cards__image {
@@ -55,6 +56,17 @@
   width: 21px;
   border-style: none;
   transition: opacity, 0.3s linear;
+}
+
+.cards__delete-button {
+  background: url(../images/Trash.svg) center no-repeat;
+  height: 19px;
+  width: 18px;
+  position: absolute;
+  left: 249px;
+  top: 18px;
+  border-style: none;
+  cursor: pointer;
 }
 
 .cards__like-button:hover {

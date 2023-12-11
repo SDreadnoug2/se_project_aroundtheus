@@ -27,6 +27,7 @@ const initialCards = [
 
 const editButton = document.querySelector(".profile__edit-button");
 const addButton = document.querySelector(".profile__add-button");
+const removeButton = document.querySelector("#trash");
 const modalBox = document.querySelector("#JSmodal");
 const addModalBox = document.querySelector("#AddPlaceModal");
 const editCloseButton = document.querySelector(".modal__close");
@@ -101,4 +102,8 @@ function getCardElement(cardData) {
 // places cards on the website //
 initialCards.forEach((cardData) => {
   cardListEl.prepend(getCardElement(cardData));
+});
+
+removeButton.addEventListener("click", () => {
+  cardElement.remove();
 });
