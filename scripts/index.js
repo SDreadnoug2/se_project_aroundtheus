@@ -26,13 +26,19 @@ const initialCards = [
 ];
 
 const editButton = document.querySelector(".profile__edit-button");
+const addButton = document.querySelector(".profile__add-button");
 const modalBox = document.querySelector("#JSmodal");
-const closeButton = document.querySelector(".modal__close");
+const addModalBox = document.querySelector("#AddPlaceModal");
+const editCloseButton = document.querySelector(".modal__close");
+const addCloseButton = document.querySelector("#addmodalclose");
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
 const inputName = document.querySelector("#modalName");
 const inputDescription = document.querySelector("#modalDescription");
+const inputLocation = document.querySelector("#modallocation");
+const inputLink = document.querySelector("#modalimagelink");
 const modalSubmit = document.querySelector(".modal__form");
+const addModalSave = document.querySelector("#addsavebutton");
 const cardListEl = document.querySelector(".cards__list");
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
@@ -40,14 +46,26 @@ const cardTemplate =
 function toggleModal() {
   modalBox.classList.toggle("modal_opened");
 }
+
+function toggleAddModal() {
+  addModalBox.classList.toggle("modal_opened");
+}
+
+addButton.addEventListener("click", () => {
+  toggleAddModal();
+});
+
 editButton.addEventListener("click", () => {
   toggleModal();
   inputName.value = profileName.textContent;
   inputDescription.value = profileDescription.textContent;
 });
 
-closeButton.addEventListener("click", toggleModal);
+editCloseButton.addEventListener("click", toggleModal);
 
+addCloseButton.addEventListener("click", toggleAddModal);
+
+//runs when  profile submit is clicked//
 function handleFormSubmit(e) {
   e.preventDefault();
   profileName.textContent = inputName.value;
@@ -57,6 +75,19 @@ function handleFormSubmit(e) {
 
 modalSubmit.addEventListener("submit", handleFormSubmit);
 
+// runs when add save is clicked //
+function handleAddSubmit(evt) {
+  evt.preventDefault();
+  const name = inputLocation.value;
+  const link = inputLink.value;
+  const cardElement = getCardElement({ name, link });
+  cardListEl.prepend(cardElement);
+  toggleAddModal();
+}
+
+addModalBox.addEventListener("submit", handleAddSubmit);
+
+// converts array into cards //
 function getCardElement(cardData) {
   const cardElement = cardTemplate.cloneNode(true);
   const cardImage = cardElement.querySelector(".cards__image");
@@ -67,7 +98,7 @@ function getCardElement(cardData) {
   return cardElement;
 }
 
+// places cards on the website //
 initialCards.forEach((cardData) => {
-  const cardElement = getCardElement(cardData);
-  cardListEl.prepend(cardElement);
+  cardListEl.prepend(getCardElement(cardData));
 });
