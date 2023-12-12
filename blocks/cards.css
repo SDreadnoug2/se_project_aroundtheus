@@ -58,6 +58,10 @@
   transition: opacity, 0.3s linear;
 }
 
+.cards__like-button_active {
+  background-image: url(../images/like_button_active.svg);
+}
+
 .cards__delete-button {
   background: url(../images/Trash.svg) center no-repeat;
   height: 19px;

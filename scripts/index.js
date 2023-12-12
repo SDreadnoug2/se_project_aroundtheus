@@ -116,3 +116,9 @@ initialCards.forEach((cardData) => {
 // Trash Can //
 
 // Like Button //
+const likeButtons = document.querySelectorAll(".cards__like-button");
+likeButtons.forEach((likeButton) => {
+  likeButton.addEventListener("click", () => {
+    likeButton.classList.toggle(".cards__like-button_active");
+  });
+});
