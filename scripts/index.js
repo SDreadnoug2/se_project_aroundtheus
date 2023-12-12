@@ -25,58 +25,40 @@ const initialCards = [
   },
 ];
 
-const editButton = document.querySelector(".profile__edit-button");
+// Add Modal ---------------------------------------------------- //
 const addButton = document.querySelector(".profile__add-button");
-const removeButton = document.querySelector("#trash");
-const modalBox = document.querySelector("#JSmodal");
 const addModalBox = document.querySelector("#AddPlaceModal");
-const editCloseButton = document.querySelector(".modal__close");
 const addCloseButton = document.querySelector("#addmodalclose");
+const addModalSave = document.querySelector("#addsavebutton");
+
+// Location Info -------------------------------------------- //
+const inputLocation = document.querySelector("#modallocation");
+const inputLink = document.querySelector("#modalimagelink");
+
+// Edit Modal ------------------------------------------ //
+const editButton = document.querySelector(".profile__edit-button");
+const modalBox = document.querySelector("#JSmodal");
+const editCloseButton = document.querySelector(".modal__close");
+const modalSubmit = document.querySelector(".modal__form");
+
+// Profile Info ---------------------------------------------- //
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
 const inputName = document.querySelector("#modalName");
 const inputDescription = document.querySelector("#modalDescription");
-const inputLocation = document.querySelector("#modallocation");
-const inputLink = document.querySelector("#modalimagelink");
-const modalSubmit = document.querySelector(".modal__form");
-const addModalSave = document.querySelector("#addsavebutton");
+
+// Card Info ------------------------------------------- //
 const cardListEl = document.querySelector(".cards__list");
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
 
-function toggleModal() {
-  modalBox.classList.toggle("modal_opened");
-}
+// ----------------------------------------------------------------------------- //
 
+// Add Modal Functionality ---------------------------------------- //
 function toggleAddModal() {
   addModalBox.classList.toggle("modal_opened");
 }
 
-addButton.addEventListener("click", () => {
-  toggleAddModal();
-});
-
-editButton.addEventListener("click", () => {
-  toggleModal();
-  inputName.value = profileName.textContent;
-  inputDescription.value = profileDescription.textContent;
-});
-
-editCloseButton.addEventListener("click", toggleModal);
-
-addCloseButton.addEventListener("click", toggleAddModal);
-
-//runs when  profile submit is clicked//
-function handleFormSubmit(e) {
-  e.preventDefault();
-  profileName.textContent = inputName.value;
-  profileDescription.textContent = inputDescription.value;
-  toggleModal();
-}
-
-modalSubmit.addEventListener("submit", handleFormSubmit);
-
-// runs when add save is clicked //
 function handleAddSubmit(evt) {
   evt.preventDefault();
   const name = inputLocation.value;
@@ -86,9 +68,37 @@ function handleAddSubmit(evt) {
   toggleAddModal();
 }
 
+addButton.addEventListener("click", () => {
+  toggleAddModal();
+});
+
+addCloseButton.addEventListener("click", toggleAddModal);
+
 addModalBox.addEventListener("submit", handleAddSubmit);
 
-// converts array into cards //
+// Edit Modal Functionality --------------------------------- //
+function toggleModal() {
+  modalBox.classList.toggle("modal_opened");
+}
+
+function handleFormSubmit(e) {
+  e.preventDefault();
+  profileName.textContent = inputName.value;
+  profileDescription.textContent = inputDescription.value;
+  toggleModal();
+}
+
+editButton.addEventListener("click", () => {
+  toggleModal();
+  inputName.value = profileName.textContent;
+  inputDescription.value = profileDescription.textContent;
+});
+
+editCloseButton.addEventListener("click", toggleModal);
+
+modalSubmit.addEventListener("submit", handleFormSubmit);
+
+// Card Functionality ---------------------------------------------------- //
 function getCardElement(cardData) {
   const cardElement = cardTemplate.cloneNode(true);
   const cardImage = cardElement.querySelector(".cards__image");
@@ -99,11 +109,10 @@ function getCardElement(cardData) {
   return cardElement;
 }
 
-// places cards on the website //
 initialCards.forEach((cardData) => {
   cardListEl.prepend(getCardElement(cardData));
 });
 
-removeButton.addEventListener("click", () => {
-  cardElement.remove();
-});
+// Trash Can //
+
+// Like Button //
