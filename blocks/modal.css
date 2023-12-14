@@ -8,13 +8,17 @@
   z-index: 999;
   justify-content: center;
   align-items: center;
-  display: none;
   font-family: Inter, Arial, Helvetica, sans-serif;
   width: 100%;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.5s linear;
+  display: flex;
 }
 
 .modal_opened {
-  display: flex;
+  visibility: visible;
+  opacity: 1;
 }
 
 .modal__container {

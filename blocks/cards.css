@@ -23,6 +23,7 @@
   width: 282px;
   height: 282px;
   border-radius: 10px 10px 0 0;
+  cursor: pointer;
 }
 
 .cards__description {
@@ -92,6 +93,9 @@
   font-family: Inter, Arial, Helvetica, sans-serif;
   width: 100%;
   visibility: hidden;
+  opacity: 0;
+  transition: all 0.5s linear;
+  display: flex;
 }
 
 .cards__modal-wrapper {
@@ -100,8 +104,8 @@
 
 .cards__modal_opened {
   visibility: visible;
-  display: flex;
   flex-direction: column;
+  opacity: 1;
 }
 .cards__modal-image {
   max-width: 75vw;
