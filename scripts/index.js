@@ -117,6 +117,20 @@ function getCardElement(cardData) {
   trash.addEventListener("click", () => {
     cardElement.remove();
   });
+  // enlarge //
+  const cardModal = document.querySelector(".cards__modal");
+  const cardModalButton = document.querySelector("#expand-close");
+  const modalImage = document.querySelector(".cards__modal-image");
+  const modalDescription = document.querySelector(".cards__modal-alt");
+
+  cardModalButton.addEventListener("click", () => {
+    cardModal.classList.remove("cards__modal_opened");
+  });
+  cardImage.addEventListener("click", () => {
+    modalImage.src = cardData.link;
+    modalDescription.textContent = cardData.name;
+    cardModal.classList.toggle("cards__modal_opened");
+  });
 
   return cardElement;
 }
