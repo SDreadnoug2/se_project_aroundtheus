@@ -103,22 +103,24 @@ function getCardElement(cardData) {
   const cardElement = cardTemplate.cloneNode(true);
   const cardImage = cardElement.querySelector(".cards__image");
   const cardTitle = cardElement.querySelector(".cards__title");
+  const likeButtons = cardElement.querySelector(".cards__like-button");
+  const trash = cardElement.querySelector("#trash");
+
   cardTitle.textContent = cardData.name;
   cardImage.src = cardData.link;
   cardImage.alt = cardData.name;
+  // Like Button //
+  likeButtons.addEventListener("click", () => {
+    likeButtons.classList.toggle("cards__like-button_active");
+  });
+  // Trash Can //
+  trash.addEventListener("click", () => {
+    cardElement.remove();
+  });
+
   return cardElement;
 }
 
 initialCards.forEach((cardData) => {
   cardListEl.prepend(getCardElement(cardData));
-});
-
-// Trash Can //
-
-// Like Button //
-const likeButtons = document.querySelectorAll(".cards__like-button");
-likeButtons.forEach((likeButton) => {
-  likeButton.addEventListener("click", () => {
-    likeButton.classList.toggle(".cards__like-button_active");
-  });
 });
