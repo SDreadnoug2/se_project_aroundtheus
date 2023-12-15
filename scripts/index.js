@@ -119,7 +119,7 @@ function getCardElement(cardData) {
   });
   // enlarge //
   const cardModal = document.querySelector(".expanded");
-  const cardModalButton = document.querySelector("#expand-close");
+  const cardModalButton = document.querySelector(".expanded__close");
   const modalImage = document.querySelector(".expanded__image");
   const modalDescription = document.querySelector(".expanded__alt");
 

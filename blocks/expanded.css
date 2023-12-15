@@ -39,3 +39,17 @@
   padding: 0;
   margin-top: 10px;
 }
+
+.expanded__close {
+  background-image: url(../images/Close_Icon.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  top: -45px;
+  right: -45px;
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  cursor: pointer;
+}
