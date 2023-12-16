@@ -68,7 +68,7 @@
     <!-- Add modal -->
     <div class="modal" id="AddPlaceModal">
       <div class="modal__container">
-        <button type="button" class="modal__close" id="addmodalclose"></button>
+        <button type="button" class="modal__close"></button>
         <p class="modal__heading">New Place</p>
         <form class="modal__form">
           <input
@@ -94,13 +94,14 @@
       </div>
     </div>
     <!-- Expanded Card Modal-->
-    <div class="expanded">
-      <div class="expanded__wrapper">
-        <button type="button" class="expanded__close"></button>
-        <img class="expanded__image" src="#" alt="" />
-        <p class="expanded__alt"></p>
+    <div class="modal" id="expanded-modal">
+      <div class="modal__container_expanded">
+        <button type="button" class="modal__close"></button>
+        <img class="modal__image" src="#" alt="" />
+        <p class="modal__image_alt"></p>
       </div>
     </div>
+    <!-- Card Template-->
     <template id="card-template">
       <li class="cards__card">
         <button type="button" class="cards__delete-button" id="trash"></button>

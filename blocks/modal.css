@@ -29,6 +29,10 @@
   position: relative;
 }
 
+.modal__container_expanded {
+  position: relative;
+}
+
 .modal__close {
   background-image: url(../images/Close_Icon.svg);
   background-repeat: no-repeat;
@@ -72,6 +76,21 @@
 
 .modal__input:nth-child(2n) {
   margin-bottom: 0;
+}
+
+.modal__image {
+  max-width: 75vw;
+  max-height: 75vh;
+  padding: 0;
+  margin: 0;
+}
+
+.modal__image_alt {
+  font-size: 12px;
+  line-height: 15px;
+  font-weight: 400;
+  padding: 0;
+  margin-top: 10px;
 }
 
 .modal__button {
