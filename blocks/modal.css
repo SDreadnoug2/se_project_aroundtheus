@@ -29,7 +29,7 @@
   position: relative;
 }
 
-.modal__container_expanded {
+.modal__container-expanded {
   position: relative;
 }
 
@@ -85,7 +85,7 @@
   margin: 0;
 }
 
-.modal__image_alt {
+.modal__image-alt {
   font-size: 12px;
   line-height: 15px;
   font-weight: 400;

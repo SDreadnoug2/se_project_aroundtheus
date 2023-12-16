@@ -111,7 +111,7 @@ function getCardElement(cardData) {
   const trash = cardElement.querySelector("#trash");
   const cardModal = document.querySelector("#expanded-modal");
   const modalImage = document.querySelector(".modal__image");
-  const modalDescription = document.querySelector(".modal__image_alt");
+  const modalDescription = document.querySelector(".modal__image-alt");
 
   cardTitle.textContent = cardData.name;
   cardImage.src = cardData.link;
