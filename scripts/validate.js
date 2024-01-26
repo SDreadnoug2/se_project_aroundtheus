@@ -32,27 +32,31 @@ const hideInputError = (formElement, inputElement) => {
 // instead of manually adding with formInput.add... create function setEventListeners()
 // takes a form element as a parameter, and adds necessary handlers to its fields.
 
-function setSubmitButtonState(isFormValid) {
-  if (isFormValid) {
-    submitButtonSelector.removeAttribute("disabled");
-    submitButtonSelector.classList.remove("modal__button_disabled");
-  } else {
-    submitButtonSelector.setAttribute("disabled", true);
-    submitButtonSelector.classList.add("modal__button_disabled");
-  }
-}
-
 const setEventListeners = (formElement) => {
   const inputList = Array.from(formElement.querySelectorAll(".modal__input"));
   const submitButton = formElement.querySelector(".modal__button");
+  const hasInvalidInput = (inputLists) => {
+    return inputLists.some((inputElement) => {
+      return !inputElement.validity.valid;
+    });
+  };
+  const toggleButtonState = (inputLists, buttonElement) => {
+    if (hasInvalidInput(inputList)) {
+      buttonElement.classList.add("modal__button_disabled");
+      buttonElement.setAttribute("disabled", true);
+    } else {
+      buttonElement.classList.remove("modal__button_disabled");
+      buttonElement.removeAttribute("disabled");
+    }
+  };
+  toggleButtonState(inputList, submitButton);
   //iterate over the array
   inputList.forEach((inputElement) => {
     // add input event handler to each field
     inputElement.addEventListener("input", () => {
       // call checkInputValidity() inside the call back and pass form to it.
       checkInputValidity(formElement, inputElement);
-      let isValid = inputElement.validity.valid;
-      setSubmitButtonState(isValid);
+      toggleButtonState(inputList, submitButton);
     });
   });
 };
@@ -65,7 +69,6 @@ const enableValidation = () => {
   formList.forEach((formElement) => {
     formElement.addEventListener("submit", (evt) => {
       evt.preventDefault();
-      setSubmitButtonState(false);
     });
 
     //call seteventlisteners for each form

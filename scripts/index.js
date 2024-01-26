@@ -55,10 +55,12 @@ const cardTemplate =
 // Open and Close popup //
 function openPopup(popup) {
   popup.classList.add("modal_opened");
+  document.addEventListener("keydown", modalEscape);
 }
 
 function closePopup(popup) {
   popup.classList.remove("modal_opened");
+  document.removeEventListener("keydown", modalEscape);
 }
 // Close buttons //
 const closeButtons = document.querySelectorAll(".modal__close");
@@ -66,6 +68,30 @@ closeButtons.forEach((button) => {
   const modal = button.closest(".modal");
   button.addEventListener("click", () => closePopup(modal));
 });
+
+// Extra Close Functionality -------------------------------------- //
+function closeModalOnRemoteClick(evt) {
+  if (
+    evt.target === evt.currentTarget ||
+    evt.target.classList.contains("modal__close")
+  ) {
+    const modal = evt.target.closest(".modal");
+    closePopup(modal);
+  }
+}
+
+function modalEscape(evt) {
+  if (evt.key === "Escape") {
+    const modalOpen = document.querySelector(".modal_opened");
+    if (modalOpen) {
+      closePopup(modalOpen);
+    }
+  }
+}
+
+editModalBox.addEventListener("click", closeModalOnRemoteClick);
+addModalBox.addEventListener("click", closeModalOnRemoteClick);
+
 // Add Modal Functionality ---------------------------------------- //
 
 function handleAddSubmit(evt) {
@@ -132,6 +158,8 @@ function getCardElement(cardData) {
     modalDescription.textContent = cardData.name;
     openPopup(cardModal);
   });
+
+  cardModal.addEventListener("click", closeModalOnRemoteClick);
 
   return cardElement;
 }
