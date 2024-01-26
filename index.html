@@ -46,22 +46,30 @@
       <div class="modal__container">
         <button type="button" class="modal__close"></button>
         <p class="modal__heading">Edit profile</p>
-        <form class="modal__form">
+        <form class="modal__form" novalidate>
           <input
             type="text"
             name="title"
             class="modal__input"
             placeholder="Name"
             id="modalName"
+            required
+            minlength="2"
+            maxlength="40"
           />
+          <span class="modal__input-error modalName-error"></span>
           <input
             type="text"
             name="description"
             class="modal__input"
             placeholder="Description"
             id="modalDescription"
+            required
+            minlength="2"
+            maxlength="200"
           />
-          <button type="submit" class="modal__button"></button>
+          <span class="modal__input-error modalDescription-error"></span>
+          <button type="submit" class="modal__button" disabled></button>
         </form>
       </div>
     </div>
@@ -77,18 +85,25 @@
             class="modal__input"
             placeholder="Location"
             id="modallocation"
+            required
+            minlength="1"
+            maxlength="30"
           />
+          <span class="modal__input-error modallocation-error"></span>
           <input
-            type="text"
+            type="url"
             name="link"
             class="modal__input"
             placeholder="Link to image"
             id="modalimagelink"
+            required
           />
+          <span class="modal__input-error modalimagelink-error"></span>
           <button
             type="submit"
             class="modal__button"
             id="addsavebutton"
+            disabled
           ></button>
         </form>
       </div>
@@ -113,5 +128,6 @@
       </li>
     </template>
     <script src="./scripts/index.js"></script>
+    <script src="./scripts/validate.js"></script>
   </body>
 </html>

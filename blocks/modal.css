@@ -74,7 +74,11 @@
   font-weight: 400;
 }
 
-.modal__input:nth-child(2n) {
+.modal__input:focus {
+  outline-width: 0;
+}
+
+.modal__input:last-child {
   margin-bottom: 0;
 }
 
@@ -97,13 +101,34 @@
   background: transparent url(../images/Submit_Button.svg) center no-repeat;
   max-width: 358px;
   height: 50px;
-  margin-top: 48px;
   border-radius: 2px;
   border-style: none;
   align-content: center;
   cursor: pointer;
 }
 
+.modal__button_disabled {
+  background: transparent url(../images/submit_disabled.png) center no-repeat;
+}
+
+.modal__input-error_active {
+  font-size: 12px;
+  line-height: 15px;
+  color: #f00;
+  padding: 5px 0 13px 0;
+}
+
+.modal__input-error_active:last-child {
+  font-size: 12px;
+  line-height: 15px;
+  color: #f00;
+  padding-top: 5px;
+}
+
+.modal__input_type_error {
+  border-bottom: 1px solid #ff0000;
+  margin: 0;
+}
 @media screen and (max-width: 590px) {
   .modal__close {
     top: -60px;
