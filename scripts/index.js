@@ -49,6 +49,7 @@ const inputDescription = document.querySelector("#modalDescription");
 const cardListEl = document.querySelector(".cards__list");
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
+const cardWindow = document.querySelector("#expanded-modal");
 
 // ----------------------------------------------------------------------------- //
 
@@ -89,8 +90,9 @@ function modalEscape(evt) {
   }
 }
 
-editModalBox.addEventListener("click", closeModalOnRemoteClick);
-addModalBox.addEventListener("click", closeModalOnRemoteClick);
+editModalBox.addEventListener("mousedown", closeModalOnRemoteClick);
+addModalBox.addEventListener("mousedown", closeModalOnRemoteClick);
+cardWindow.addEventListener("mousedown", closeModalOnRemoteClick);
 
 // Add Modal Functionality ---------------------------------------- //
 
@@ -158,8 +160,6 @@ function getCardElement(cardData) {
     modalDescription.textContent = cardData.name;
     openPopup(cardModal);
   });
-
-  cardModal.addEventListener("click", closeModalOnRemoteClick);
 
   return cardElement;
 }
