@@ -31,24 +31,24 @@ const hideInputError = (formElement, inputElement) => {
 //adding handlers to all form fields
 // instead of manually adding with formInput.add... create function setEventListeners()
 // takes a form element as a parameter, and adds necessary handlers to its fields.
-
+function hasInvalidInput(inputLists) {
+  return inputLists.some((inputElement) => {
+    return !inputElement.validity.valid;
+  });
+}
+function toggleButtonState(inputLists, buttonElement) {
+  if (hasInvalidInput(inputLists)) {
+    buttonElement.classList.add("modal__button_disabled");
+    buttonElement.setAttribute("disabled", true);
+  } else {
+    buttonElement.classList.remove("modal__button_disabled");
+    buttonElement.removeAttribute("disabled");
+  }
+}
 const setEventListeners = (formElement) => {
   const inputList = Array.from(formElement.querySelectorAll(".modal__input"));
   const submitButton = formElement.querySelector(".modal__button");
-  const hasInvalidInput = (inputLists) => {
-    return inputLists.some((inputElement) => {
-      return !inputElement.validity.valid;
-    });
-  };
-  const toggleButtonState = (inputLists, buttonElement) => {
-    if (hasInvalidInput(inputList)) {
-      buttonElement.classList.add("modal__button_disabled");
-      buttonElement.setAttribute("disabled", true);
-    } else {
-      buttonElement.classList.remove("modal__button_disabled");
-      buttonElement.removeAttribute("disabled");
-    }
-  };
+
   toggleButtonState(inputList, submitButton);
   //iterate over the array
   inputList.forEach((inputElement) => {
@@ -63,7 +63,7 @@ const setEventListeners = (formElement) => {
 
 // enableValidation() finds forms and iterate over them.
 
-const enableValidation = () => {
+const enableValidation = (options) => {
   const formList = Array.from(document.querySelectorAll(".modal__form"));
   // iterate over the array
   formList.forEach((formElement) => {
