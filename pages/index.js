@@ -1,3 +1,6 @@
+import Card from "../Components/Card.js";
+import FormValidatior from "../Components/validate.js";
+
 const initialCards = [
   {
     name: "Denali",
@@ -130,40 +133,31 @@ editButton.addEventListener("click", () => {
 
 profileForm.addEventListener("submit", handleProfileFormSubmit);
 
-// Card Functionality ---------------------------------------------------- //
-function getCardElement(cardData) {
-  const cardElement = cardTemplate.cloneNode(true);
-  const cardImage = cardElement.querySelector(".cards__image");
-  const cardTitle = cardElement.querySelector(".cards__title");
-  const likeButton = cardElement.querySelector(".cards__like-button");
-  const trash = cardElement.querySelector("#trash");
-  const cardModal = document.querySelector("#expanded-modal");
+function _handleImageClick(cardData) {
   const modalImage = document.querySelector(".modal__image");
   const modalDescription = document.querySelector(".modal__image-alt");
-
-  cardTitle.textContent = cardData.name;
-  cardImage.src = cardData.link;
-  cardImage.alt = cardData.name;
-  // Like Button //
-  likeButton.addEventListener("click", () => {
-    likeButton.classList.toggle("cards__like-button_active");
-  });
-  // Trash Can //
-  trash.addEventListener("click", () => {
-    cardElement.remove();
-  });
-  // enlarge //
-
-  cardImage.addEventListener("click", () => {
-    modalImage.src = cardData.link;
-    modalImage.alt = cardData.name;
-    modalDescription.textContent = cardData.name;
-    openPopup(cardModal);
-  });
-
-  return cardElement;
+  modalImage.src = cardData.link;
+  modalImage.alt = cardData.name;
+  modalDescription.textContent = cardData.name;
+  openPopup(cardWindow);
 }
 
 initialCards.forEach((cardData) => {
-  cardListEl.prepend(getCardElement(cardData));
+  const card = new Card(cardData, "#card-template", _handleImageClick);
+  const cardElement = card.generateCard();
+  cardListEl.prepend(cardElement);
 });
+
+/////////// Validation
+const config = {
+  inputSelector: ".modal__input",
+  submitButtonSelector: ".modal__button",
+  inactiveButtonClass: "modal__button_disabled",
+  inputErrorClass: "modal__input_type_error",
+  errorClass: "modal__input-error_active",
+};
+const editFormValidator = new FormValidatior(config, editModalBox);
+const addFormValidator = new FormValidatior(config, addModalBox);
+
+editFormValidator.enableValidation();
+addFormValidator.enableValidation();
