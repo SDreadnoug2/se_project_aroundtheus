@@ -56,23 +56,6 @@ const cardWindow = document.querySelector("#expanded-modal");
 
 // ----------------------------------------------------------------------------- //
 
-// Open and Close popup //
-function openPopup(popup) {
-  popup.classList.add("modal_opened");
-  document.addEventListener("keydown", modalEscape);
-}
-
-function closePopup(popup) {
-  popup.classList.remove("modal_opened");
-  document.removeEventListener("keydown", modalEscape);
-}
-// Close buttons //
-const closeButtons = document.querySelectorAll(".modal__close");
-closeButtons.forEach((button) => {
-  const modal = button.closest(".modal");
-  button.addEventListener("click", () => closePopup(modal));
-});
-
 // Extra Close Functionality -------------------------------------- //
 function closeModalOnRemoteClick(evt) {
   if (
@@ -101,16 +84,22 @@ cardWindow.addEventListener("mousedown", closeModalOnRemoteClick);
 
 function handleAddSubmit(evt) {
   evt.preventDefault();
-
   const name = inputLocation.value;
   const link = inputLink.value;
-  const cardElement = getCardElement({ name, link });
-  cardListEl.prepend(cardElement);
+  const userCard = new Card({ name, link }, "#card-template", handleImageClick);
+  const userCardElement = userCard.generateCard();
+  cardListEl.prepend(userCardElement);
   closePopup(addModalBox);
+  inputLocation.textContent = "";
+  inputLink.textContent = "";
   evt.target.reset();
 }
 
 addButton.addEventListener("click", () => {
+  if (inputLocation.textContent === "" && inputLink.textContent === "") {
+    addModalSave.classList.add("modal__button_disabled");
+    addModalSave.setAttribute("disabled", true);
+  }
   openPopup(addModalBox);
 });
 
@@ -133,22 +122,22 @@ editButton.addEventListener("click", () => {
 
 profileForm.addEventListener("submit", handleProfileFormSubmit);
 
-function _handleImageClick(cardData) {
+function handleImageClick(cardData) {
   const modalImage = document.querySelector(".modal__image");
   const modalDescription = document.querySelector(".modal__image-alt");
-  modalImage.src = cardData.link;
-  modalImage.alt = cardData.name;
-  modalDescription.textContent = cardData.name;
+  modalImage.src = cardData._link;
+  modalImage.alt = cardData._name;
+  modalDescription.textContent = cardData._name;
   openPopup(cardWindow);
 }
 
 initialCards.forEach((cardData) => {
-  const card = new Card(cardData, "#card-template", _handleImageClick);
+  const card = new Card(cardData, "#card-template", handleImageClick);
   const cardElement = card.generateCard();
   cardListEl.prepend(cardElement);
 });
 
-/////////// Validation
+// Validation ------------------------------------------ //
 const config = {
   inputSelector: ".modal__input",
   submitButtonSelector: ".modal__button",
@@ -161,3 +150,20 @@ const addFormValidator = new FormValidatior(config, addModalBox);
 
 editFormValidator.enableValidation();
 addFormValidator.enableValidation();
+
+// Open and Close popup //
+function openPopup(popup) {
+  popup.classList.add("modal_opened");
+  document.addEventListener("keydown", modalEscape);
+}
+
+function closePopup(popup) {
+  popup.classList.remove("modal_opened");
+  document.removeEventListener("keydown", modalEscape);
+}
+// Close buttons //
+const closeButtons = document.querySelectorAll(".modal__close");
+closeButtons.forEach((button) => {
+  const modal = button.closest(".modal");
+  button.addEventListener("click", () => closePopup(modal));
+});
