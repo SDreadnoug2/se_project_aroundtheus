@@ -92,7 +92,7 @@ function handleAddSubmit(evt) {
   cardListEl.prepend(createCard({ name, link }));
   closePopup(addModalBox);
   evt.target.reset();
-  addFormValidator._toggleButtonState();
+  addFormValidator.toggleButtonState();
 }
 
 addButton.addEventListener("click", () => {
