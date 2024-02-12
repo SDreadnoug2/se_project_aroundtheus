@@ -1,4 +1,4 @@
-export default class FormValidatior {
+export default class FormValidator {
   constructor(config, formElement) {
     this._form = formElement;
     this._inputSelector = config.inputSelector;
@@ -54,6 +54,9 @@ export default class FormValidatior {
 
   _setEventListeners() {
     this._inputList.forEach((inputElement) => {
+      if (inputElement.textContent === "") {
+        this._toggleButtonState();
+      }
       inputElement.addEventListener("input", () => {
         this._checkInputValidity(inputElement);
         this._toggleButtonState();

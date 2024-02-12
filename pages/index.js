@@ -1,5 +1,5 @@
 import Card from "../Components/Card.js";
-import FormValidatior from "../Components/validate.js";
+import FormValidator from "../Components/FormValidator.js";
 
 const initialCards = [
   {
@@ -57,17 +57,16 @@ const cardWindow = document.querySelector("#expanded-modal");
 // ----------------------------------------------------------------------------- //
 
 // Extra Close Functionality -------------------------------------- //
-function closeModalOnRemoteClick(evt) {
+function handleModalClose(evt) {
   if (
     evt.target === evt.currentTarget ||
     evt.target.classList.contains("modal__close")
   ) {
-    const modal = evt.target.closest(".modal");
-    closePopup(modal);
+    closePopup(evt.currentTarget);
   }
 }
 
-function modalEscape(evt) {
+function handleEscape(evt) {
   if (evt.key === "Escape") {
     const modalOpen = document.querySelector(".modal_opened");
     if (modalOpen) {
@@ -76,34 +75,44 @@ function modalEscape(evt) {
   }
 }
 
-editModalBox.addEventListener("mousedown", closeModalOnRemoteClick);
-addModalBox.addEventListener("mousedown", closeModalOnRemoteClick);
-cardWindow.addEventListener("mousedown", closeModalOnRemoteClick);
+[editModalBox, addModalBox, cardWindow].forEach((modal) => {
+  modal.addEventListener("mousedown", handleModalClose);
+});
 
 // Add Modal Functionality ---------------------------------------- //
+function createCard(data) {
+  const userCard = new Card(data, "#card-template", handleImageClick);
+  return userCard.generateCard();
+}
 
 function handleAddSubmit(evt) {
   evt.preventDefault();
   const name = inputLocation.value;
   const link = inputLink.value;
-  const userCard = new Card({ name, link }, "#card-template", handleImageClick);
-  const userCardElement = userCard.generateCard();
-  cardListEl.prepend(userCardElement);
+  cardListEl.prepend(createCard({ name, link }));
   closePopup(addModalBox);
-  inputLocation.textContent = "";
-  inputLink.textContent = "";
   evt.target.reset();
+  addFormValidator._toggleButtonState();
 }
 
 addButton.addEventListener("click", () => {
-  if (inputLocation.textContent === "" && inputLink.textContent === "") {
-    addModalSave.classList.add("modal__button_disabled");
-    addModalSave.setAttribute("disabled", true);
-  }
   openPopup(addModalBox);
 });
 
 addModalBox.addEventListener("submit", handleAddSubmit);
+
+function handleImageClick(cardData) {
+  const modalImage = document.querySelector(".modal__image");
+  const modalDescription = document.querySelector(".modal__image-alt");
+  modalImage.src = cardData._link;
+  modalImage.alt = cardData._name;
+  modalDescription.textContent = cardData._name;
+  openPopup(cardWindow);
+}
+
+initialCards.forEach((cardData) => {
+  cardListEl.prepend(createCard(cardData));
+});
 
 // Edit Modal Functionality --------------------------------- //
 
@@ -122,21 +131,6 @@ editButton.addEventListener("click", () => {
 
 profileForm.addEventListener("submit", handleProfileFormSubmit);
 
-function handleImageClick(cardData) {
-  const modalImage = document.querySelector(".modal__image");
-  const modalDescription = document.querySelector(".modal__image-alt");
-  modalImage.src = cardData._link;
-  modalImage.alt = cardData._name;
-  modalDescription.textContent = cardData._name;
-  openPopup(cardWindow);
-}
-
-initialCards.forEach((cardData) => {
-  const card = new Card(cardData, "#card-template", handleImageClick);
-  const cardElement = card.generateCard();
-  cardListEl.prepend(cardElement);
-});
-
 // Validation ------------------------------------------ //
 const config = {
   inputSelector: ".modal__input",
@@ -145,8 +139,8 @@ const config = {
   inputErrorClass: "modal__input_type_error",
   errorClass: "modal__input-error_active",
 };
-const editFormValidator = new FormValidatior(config, editModalBox);
-const addFormValidator = new FormValidatior(config, addModalBox);
+const editFormValidator = new FormValidator(config, editModalBox);
+const addFormValidator = new FormValidator(config, addModalBox);
 
 editFormValidator.enableValidation();
 addFormValidator.enableValidation();
@@ -154,16 +148,10 @@ addFormValidator.enableValidation();
 // Open and Close popup //
 function openPopup(popup) {
   popup.classList.add("modal_opened");
-  document.addEventListener("keydown", modalEscape);
+  document.addEventListener("keydown", handleEscape);
 }
 
 function closePopup(popup) {
   popup.classList.remove("modal_opened");
-  document.removeEventListener("keydown", modalEscape);
+  document.removeEventListener("keydown", handleEscape);
 }
-// Close buttons //
-const closeButtons = document.querySelectorAll(".modal__close");
-closeButtons.forEach((button) => {
-  const modal = button.closest(".modal");
-  button.addEventListener("click", () => closePopup(modal));
-});
