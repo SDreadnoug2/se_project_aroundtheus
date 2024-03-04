@@ -38,6 +38,7 @@ imageAddPopup.setEventListeners();
 function handleAddSubmit() {
   EventTarget.preventDefault;
   const addInfo = imageAddPopup._getInputValues();
+  console.log(addInfo);
   cardListEl.prepend(createCard(addInfo));
   imageAddPopup.close();
   addFormValidator.toggleButtonState();
@@ -81,6 +82,7 @@ cardRenderer.renderItems();
 
 // Edit Modal Functionality --------------------------------- //
 function handleProfileFormSubmit(data) {
+  console.log(data);
   userInfo.setUserInfo(data);
   profileEditPopup.close();
 }
