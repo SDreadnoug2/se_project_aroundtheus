@@ -27,9 +27,9 @@ import ppSrc from "../images/pp.png";
 import logoSrc from "../images/logo.svg";
 
 const profilePicture = document.getElementById("profilepicture");
-profilePicture.src = profilePicture;
+profilePicture.src = "../images/pp.png";
 const logoImage = document.getElementById("logo");
-logoImage.src = logoImage;
+logoImage.src = "../images/logo.svg";
 
 // Add Modal Functionality ---------------------------------------- //
 function createCard(data) {
