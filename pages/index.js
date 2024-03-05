@@ -38,6 +38,7 @@ imageAddPopup.setEventListeners();
 function handleAddSubmit() {
   EventTarget.preventDefault;
   const addInfo = imageAddPopup._getInputValues();
+  addInfo.name = addInfo.location;
   console.log(addInfo);
   cardListEl.prepend(createCard(addInfo));
   imageAddPopup.close();

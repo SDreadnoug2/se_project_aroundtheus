@@ -16,6 +16,10 @@ export default class PopupWithForm extends Popup {
     const inputValues = {};
     this._popupForm.querySelectorAll(".modal__input").forEach((input) => {
       inputValues[input.name] = input.value;
+      //finding key inside input values object based on the name property,
+      // of the input element.
+      // Then setting the value of that key to the value of the input element.
+      // e.g. inputValues[location] = "Jamaica"
     });
     return inputValues;
   }
