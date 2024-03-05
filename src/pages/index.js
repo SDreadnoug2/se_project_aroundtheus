@@ -23,6 +23,14 @@ import {
   cardTemplate,
   cardWindow,
 } from "../Components/Constants.js";
+import ppSrc from "../images/pp.png";
+import logoSrc from "../images/logo.svg";
+
+const profilePicture = document.getElementById("profilepicture");
+profilePicture.src = profilePicture;
+const logoImage = document.getElementById("logo");
+logoImage.src = logoImage;
+
 // Add Modal Functionality ---------------------------------------- //
 function createCard(data) {
   const userCard = new Card(data, "#card-template", handleImageClick);
