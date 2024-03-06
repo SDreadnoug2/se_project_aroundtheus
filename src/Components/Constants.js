@@ -1,25 +1,27 @@
 // Add Modal ---------------------------------------------------- //
-const addButton = document.querySelector(".profile__add-button");
-const addModalBox = document.querySelector("#AddPlaceModal");
-const addModalSave = document.querySelector("#addsavebutton");
+export const addButton = document.querySelector(".profile__add-button");
+export const addModalBox = document.querySelector("#AddPlaceModal");
+export const addModalSave = document.querySelector("#addsavebutton");
 // Location Info -------------------------------------------- //
-const inputLocation = document.querySelector("#modallocation");
-const inputLink = document.querySelector("#modalimagelink");
+export const inputLocation = document.querySelector("#modallocation");
+export const inputLink = document.querySelector("#modalimagelink");
 // Edit Modal ------------------------------------------ //
-const editButton = document.querySelector(".profile__edit-button");
-const editModalBox = document.querySelector("#JSmodal");
-const profileForm = document.querySelector(".modal__form");
+export const editButton = document.querySelector(".profile__edit-button");
+export const editModalBox = document.querySelector("#JSmodal");
+export const profileForm = document.querySelector(".modal__form");
 // Profile Info ---------------------------------------------- //
-const profileName = document.querySelector(".profile__name");
-const profileDescription = document.querySelector(".profile__description");
-const inputName = document.querySelector("#modalName");
-const inputDescription = document.querySelector("#modalDescription");
+export const profileName = document.querySelector(".profile__name");
+export const profileDescription = document.querySelector(
+  ".profile__description"
+);
+export const inputName = document.querySelector("#modalName");
+export const inputDescription = document.querySelector("#modalDescription");
 // Card Info ------------------------------------------- //
-const cardTemplate =
+export const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
-const cardWindow = document.querySelector("#expanded-modal");
+export const cardWindow = document.querySelector("#expanded-modal");
 
-const config = {
+export const config = {
   inputSelector: ".modal__input",
   submitButtonSelector: ".modal__button",
   inactiveButtonClass: "modal__button_disabled",

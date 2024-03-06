@@ -23,15 +23,15 @@ import {
   cardTemplate,
   cardWindow,
 } from "../Components/Constants.js";
-import ppSrc from "../images/pp.png";
-import logoSrc from "../images/logo.svg";
-
-const profilePicture = document.getElementById("profilepicture");
-profilePicture.src = "../images/pp.png";
-const logoImage = document.getElementById("logo");
-logoImage.src = "../images/logo.svg";
 
 // Add Modal Functionality ---------------------------------------- //
+const imagePopup = new PopupWithImage("#expanded-modal");
+imagePopup.setEventListeners();
+
+function handleImageClick({ name, link }) {
+  imagePopup.open({ name, link });
+}
+
 function createCard(data) {
   const userCard = new Card(data, "#card-template", handleImageClick);
   return userCard.generateCard();
@@ -44,7 +44,6 @@ function handleAddSubmit() {
   EventTarget.preventDefault;
   const addInfo = imageAddPopup._getInputValues();
   addInfo.name = addInfo.location;
-  console.log(addInfo);
   cardListEl.prepend(createCard(addInfo));
   imageAddPopup.close();
   addFormValidator.toggleButtonState();
@@ -53,15 +52,6 @@ function handleAddSubmit() {
 addButton.addEventListener("click", () => {
   imageAddPopup.open();
 });
-
-function handleImageClick(cardData) {
-  const modalImage = document.querySelector(".modal__image");
-  const modalDescription = document.querySelector(".modal__image-alt");
-  modalImage.src = cardData._link;
-  modalImage.alt = cardData._name;
-  modalDescription.textContent = cardData._name;
-  cardWindow.open();
-}
 
 // Initial Cards ---------------------------------------------------------------- //
 
@@ -78,18 +68,19 @@ const cardRenderer = new Section(
 cardRenderer.renderItems();
 
 // Edit Modal Functionality --------------------------------- //
-function handleProfileFormSubmit(data) {
-  console.log(data);
-  userInfo.setUserInfo(data);
-  profileEditPopup.close();
-}
-
 const userInfo = new UserInfo({
   userName: ".profile__name",
   userJob: ".profile__description",
 });
 
 const profileEditPopup = new PopupWithForm("#JSmodal", handleProfileFormSubmit);
+
+function handleProfileFormSubmit() {
+  const info = profileEditPopup._getInputValues();
+  console.log(info);
+  userInfo.setUserInfo(info);
+  profileEditPopup.close();
+}
 
 editButton.addEventListener("click", () => {
   const currentUser = userInfo.getUserInfo();
