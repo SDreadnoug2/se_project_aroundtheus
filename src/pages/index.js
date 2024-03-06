@@ -24,35 +24,6 @@ import {
   cardWindow,
 } from "../Components/Constants.js";
 
-// Add Modal Functionality ---------------------------------------- //
-const imagePopup = new PopupWithImage("#expanded-modal");
-imagePopup.setEventListeners();
-
-function handleImageClick({ name, link }) {
-  imagePopup.open({ name, link });
-}
-
-function createCard(data) {
-  const userCard = new Card(data, "#card-template", handleImageClick);
-  return userCard.generateCard();
-}
-
-const imageAddPopup = new PopupWithForm("#AddPlaceModal", handleAddSubmit);
-imageAddPopup.setEventListeners();
-
-function handleAddSubmit() {
-  EventTarget.preventDefault;
-  const addInfo = imageAddPopup._getInputValues();
-  addInfo.name = addInfo.location;
-  cardListEl.prepend(createCard(addInfo));
-  imageAddPopup.close();
-  addFormValidator.toggleButtonState();
-}
-
-addButton.addEventListener("click", () => {
-  imageAddPopup.open();
-});
-
 // Initial Cards ---------------------------------------------------------------- //
 
 const cardRenderer = new Section(
@@ -99,3 +70,32 @@ const addFormValidator = new FormValidator(config, addModalBox);
 
 editFormValidator.enableValidation();
 addFormValidator.enableValidation();
+
+// Add Modal Functionality ---------------------------------------- //
+const imagePopup = new PopupWithImage({ popupSelector: "#expanded-modal" });
+imagePopup.setEventListeners();
+
+function handleImageClick({ name, link }) {
+  imagePopup.open({ name, link });
+}
+
+function createCard(data) {
+  const userCard = new Card(data, "#card-template", handleImageClick);
+  return userCard.generateCard();
+}
+
+const imageAddPopup = new PopupWithForm("#AddPlaceModal", handleAddSubmit);
+imageAddPopup.setEventListeners();
+
+function handleAddSubmit() {
+  EventTarget.preventDefault;
+  const addInfo = imageAddPopup._getInputValues();
+  addInfo.name = addInfo.location;
+  cardListEl.prepend(createCard(addInfo));
+  imageAddPopup.close();
+  addFormValidator.toggleButtonState();
+}
+
+addButton.addEventListener("click", () => {
+  imageAddPopup.open();
+});

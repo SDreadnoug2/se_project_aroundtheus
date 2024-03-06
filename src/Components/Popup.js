@@ -31,6 +31,7 @@ export default class Popup {
       .querySelector(".modal__container")
       .addEventListener("click", (event) => {
         event.stopPropagation();
+        console.log("clicked");
       });
     this._popupElement.addEventListener("click", (evt) => {
       console.log("clicked");
