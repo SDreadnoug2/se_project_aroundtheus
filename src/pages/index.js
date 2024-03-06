@@ -27,17 +27,17 @@ import {
 
 // Instantiation ---------------------------------------------------------------- //
 
-const cardRenderer = new Section(
+const cardSection = new Section(
   {
     items: initialCards,
     renderer: (card) => {
-      cardRenderer.addItems(createCard(card));
+      cardSection.addItems(createCard(card));
     },
   },
   cardListEl
 );
 
-cardRenderer.renderItems();
+cardSection.renderItems();
 
 const imagePopup = new PopupWithImage({ popupSelector: "#expanded-modal" });
 const imageAddPopup = new PopupWithForm("#AddPlaceModal", handleAddSubmit);
@@ -66,19 +66,26 @@ addButton.addEventListener("click", () => {
 
 imageAddPopup.setEventListeners();
 
-function handleAddSubmit() {
-  EventTarget.preventDefault;
-  const addInfo = imageAddPopup._getInputValues();
-  addInfo.name = addInfo.location;
-  cardListEl.prepend(createCard(addInfo));
+function handleAddSubmit(info) {
+  info.name = info.location;
+  const cardArray = createCard({ name: info.name, link: info.link });
+  const newCard = new Section(
+    {
+      items: [cardArray],
+      renderer: (data) => {
+        newCard.addItems(data);
+      },
+    },
+    cardListEl
+  );
+  newCard.renderItems();
   imageAddPopup.close();
   addFormValidator.toggleButtonState();
 }
 
 // Edit Modal Functionality --------------------------------- //
 
-function handleProfileFormSubmit() {
-  const info = profileEditPopup._getInputValues();
+function handleProfileFormSubmit(info) {
   console.log(info);
   userInfo.setUserInfo(info);
   profileEditPopup.close();
