@@ -15,7 +15,18 @@ export default class PopupWithImage extends Popup {
     this._modalDescription.textContent = name;
     console.log("open");
   }
+
+  setEventListeners() {
+    super.setEventListeners();
+    this._popupElement
+      .querySelector(".modal__container-expanded")
+      .addEventListener("click", (event) => {
+        event.stopPropagation();
+        console.log("clicked");
+      });
+  }
 }
+
 /*
 function handleImageClick(cardData) {
   const modalImage = document.querySelector(".modal__image");
