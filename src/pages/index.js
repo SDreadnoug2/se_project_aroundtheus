@@ -1,4 +1,3 @@
-import { cardListEl, initialCards } from "../utils/constants.js";
 import Card from "../Components/Card.js";
 import FormValidator from "../Components/FormValidator.js";
 import Section from "../Components/Section.js";
@@ -22,7 +21,9 @@ import {
   inputDescription,
   cardTemplate,
   cardWindow,
-} from "../Components/Constants.js";
+  cardListEl,
+  initialCards,
+} from "../utils/constants.js";
 
 // Instantiation ---------------------------------------------------------------- //
 
@@ -50,8 +51,8 @@ const profileEditPopup = new PopupWithForm("#JSmodal", handleProfileFormSubmit);
 
 imagePopup.setEventListeners();
 
-function handleImageClick({ name, link }) {
-  imagePopup.open({ name, link });
+function handleImageClick(data) {
+  imagePopup.open(data);
 }
 
 function createCard(data) {
@@ -60,7 +61,6 @@ function createCard(data) {
 }
 
 addButton.addEventListener("click", () => {
-  console.log("clikced");
   imageAddPopup.open();
 });
 

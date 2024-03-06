@@ -8,12 +8,12 @@ export default class PopupWithImage extends Popup {
       this._popupElement.querySelector(".modal__image-alt");
   }
 
-  open({ name, link }) {
+  open(data) {
     super.open();
-    this._modalImage.src = link;
-    this._modalImage.alt = name;
-    this._modalDescription.textContent = name;
-    console.log("open");
+    this._modalImage.src = data.link;
+    this._modalImage.alt = data.name;
+    this._modalDescription.textContent = data.name;
+    console.log(data);
   }
 
   setEventListeners() {

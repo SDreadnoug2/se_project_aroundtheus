@@ -27,16 +27,14 @@ export default class Popup {
       .addEventListener("click", () => {
         this.close();
       });
-    this._popupElement
-      .querySelector(".modal__container")
-      .addEventListener("click", (event) => {
-        event.stopPropagation();
-        console.log("clicked");
-        this.open();
-      });
     this._popupElement.addEventListener("click", (evt) => {
-      console.log("clicked");
-      this.close();
+      evt.stopPropagation();
+      if (
+        evt.target.classList.contains("modal_opened") ||
+        evt.target.classList.contains("modal__close")
+      ) {
+        this.close();
+      }
     });
   }
 }
