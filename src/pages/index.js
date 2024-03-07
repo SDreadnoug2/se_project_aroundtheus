@@ -1,9 +1,9 @@
-import Card from "../Components/Card.js";
-import FormValidator from "../Components/FormValidator.js";
-import Section from "../Components/Section.js";
-import PopupWithImage from "../Components/PopupWithImage.js";
-import PopupWithForm from "../Components/PopupWithForm.js";
-import UserInfo from "../Components/UserInfo.js";
+import Card from "../components/Card.js";
+import FormValidator from "../components/FormValidator.js";
+import Section from "../components/Section.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import UserInfo from "../components/UserInfo.js";
 import "../pages/index.css";
 import {
   config,
@@ -68,17 +68,8 @@ imageAddPopup.setEventListeners();
 
 function handleAddSubmit(info) {
   info.name = info.location;
-  const cardArray = createCard({ name: info.name, link: info.link });
-  const newCard = new Section(
-    {
-      items: [cardArray],
-      renderer: (data) => {
-        newCard.addItems(data);
-      },
-    },
-    cardListEl
-  );
-  newCard.renderItems();
+  const cardObj = createCard(info);
+  cardSection.addItems(cardObj);
   imageAddPopup.close();
   addFormValidator.toggleButtonState();
 }

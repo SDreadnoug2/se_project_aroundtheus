@@ -159,4 +159,10 @@
     background: transparent url(../images/Submit_Button_small.svg) center
       no-repeat;
   }
+
+  .modal__button_disabled {
+    background: transparent url(../images/submit_disabled.png) center no-repeat;
+    cursor: default;
+    width: 100%;
+  }
 }
