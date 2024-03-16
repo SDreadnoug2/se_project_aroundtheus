@@ -90,6 +90,27 @@ export default class Api {
   }
 
   likeCard(id, status) {
-    return fetch(`${this._baseUrl}cards/${id}/likes`
+    if (status === false) {
+      return fetch(`${this._baseUrl}cards/${id}/likes`, {
+        method: "PUT",
+        headers: {
+          authorization: `${this._authorization}`,
+          "Content-Type": "application/json",
+        },
+      }).then((res) => {
+        return console.log(res);
+      });
+    }
+    if (status === true) {
+      return fetch(`${this._baseUrl}cards/${id}/likes`, {
+        method: "DELETE",
+        headers: {
+          authorization: `${this._authorization}`,
+          "Content-Type": "application/json",
+        },
+      }).then((res) => {
+        return console.log(res);
+      });
+    }
   }
 }
