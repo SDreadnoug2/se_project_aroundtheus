@@ -26,9 +26,9 @@
             alt="profile picture"
           />
           <div class="profile__info">
-            <h1 class="profile__name">Jacques Cousteau</h1>
+            <h1 class="profile__name"></h1>
             <button type="button" class="profile__edit-button"></button>
-            <p class="profile__description">Explorer</p>
+            <p class="profile__description"></p>
           </div>
           <button type="button" class="profile__add-button"></button>
         </section>
@@ -105,6 +105,18 @@
             disabled
           ></button>
         </form>
+      </div>
+    </div>
+    <!-- Confirm Delete modal -->
+    <div class="modal" id="ConfirmModal">
+      <div class="modal__container-confirm">
+        <button type="button" class="modal__close"></button>
+        <h1 class="modal__heading-confirm">Are you sure?</h1>
+        <button
+          type="submit"
+          class="modal__button-confirm"
+          id="ConfirmDelete"
+        ></button>
       </div>
     </div>
     <!-- Expanded Card Modal-->
