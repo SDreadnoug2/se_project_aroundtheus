@@ -38,3 +38,6 @@ export const config = {
 };
 
 export const confirmDelete = document.querySelector("#ConfirmDelete");
+export const profilePictureContainer = document.querySelector(
+  "profile__image-container"
+);

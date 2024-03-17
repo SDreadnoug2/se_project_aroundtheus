@@ -27,6 +27,7 @@ import {
   initialCards,
   confirmDelete,
   profilePicture,
+  profilePictureContainer,
 } from "../utils/constants.js";
 
 // Instantiation ---------------------------------------------------------------- //
