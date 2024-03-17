@@ -15,7 +15,11 @@ export default class Api {
         }
       })
       .then((data) => {
-        return { userName: data.name, userJob: data.about };
+        return {
+          userName: data.name,
+          userJob: data.about,
+          avatar: data.avatar,
+        };
       })
       .catch((error) => {
         console.error("Error loading user info:", error);
@@ -112,5 +116,24 @@ export default class Api {
         return console.log(res);
       });
     }
+  }
+
+  updatePicture(link) {
+    return fetch(`${this._baseUrl}users/me/avatar`, {
+      method: "PATCH",
+      headers: {
+        authorization: `${this._authorization}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        avatar: link,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .catch((error) => console.error("Error updating user info:", error));
   }
 }

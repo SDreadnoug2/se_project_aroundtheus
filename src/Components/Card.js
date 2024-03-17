@@ -34,8 +34,15 @@ export default class Card {
 
   _handleLikeIcon() {
     console.log(this._isLiked);
-    this._handleLike(this._id, this._isLiked);
-    this._likeButton.classList.toggle("cards__like-button_active");
+    const apiExec = this._handleLike(this._id, this._isLiked);
+    if (apiExec === true) {
+      apiExec;
+      this._likeButton.classList.remove("cards__like-button_active");
+    }
+    if (apiExec === false) {
+      apiExec;
+      this._likeButton.classList.add("cards__like-button_active");
+    }
   }
 
   _setEventListeners() {
@@ -56,6 +63,9 @@ export default class Card {
     this._cardImage.src = this._link;
     this._element.querySelector(".cards__title").textContent = this._name;
     this._cardImage.alt = this._name;
+    this._isLiked
+      ? this._likeButton.classList.add("cards__like-button_active")
+      : this._likeButton.classList.remove("cards__like-button_active");
     this._setEventListeners();
 
     return this._element;

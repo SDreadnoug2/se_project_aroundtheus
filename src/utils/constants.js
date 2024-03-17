@@ -19,6 +19,7 @@ export const profileDescription = document.querySelector(
 );
 export const inputName = document.querySelector("#modalName");
 export const inputDescription = document.querySelector("#modalDescription");
+export const profilePicture = document.querySelector(".profile__image");
 
 // Card Info ------------------------------------------- //
 export const cardListEl = document.querySelector(".cards__list");

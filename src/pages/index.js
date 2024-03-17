@@ -26,6 +26,7 @@ import {
   cardListEl,
   initialCards,
   confirmDelete,
+  profilePicture,
 } from "../utils/constants.js";
 
 // Instantiation ---------------------------------------------------------------- //
@@ -48,6 +49,10 @@ const imagePopup = new PopupWithImage({ popupSelector: "#expanded-modal" });
 const imageAddPopup = new PopupWithForm("#AddPlaceModal", handleAddSubmit);
 const confirmDeletePopup = new Popup({ popupSelector: "#ConfirmModal" });
 const profileEditPopup = new PopupWithForm("#JSmodal", handleProfileFormSubmit);
+const profilePictureUpdate = new PopupWithForm(
+  "#PPupdate",
+  handleProfilePictureUpdate
+);
 
 // Add Modal Functionality ---------------------------------------- //
 
@@ -103,12 +108,19 @@ function handleDeleteConfirm(id, card) {
 
 function handleLike(id, isliked) {
   api.likeCard(id, isliked);
+  if (isliked === true) {
+    return true;
+  }
+  if (isliked === false) {
+    return false;
+  }
 }
 
 // Edit Modal Functionality --------------------------------- //
 api.loadUserInfo().then((userInfoData) => {
   profileName.textContent = userInfoData.userName;
   profileDescription.textContent = userInfoData.userJob;
+  profilePicture.src = userInfoData.avatar;
 });
 
 const userInfo = new UserInfo({
@@ -122,6 +134,8 @@ function handleProfileFormSubmit(info) {
   profileEditPopup.close();
   api.updateProfile(info);
 }
+
+function handleProfilePictureUpdate(link) {}
 
 editButton.addEventListener("click", () => {
   const currentUser = userInfo.getUserInfo();
