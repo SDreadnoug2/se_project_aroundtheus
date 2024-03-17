@@ -1,28 +1,139 @@
-/*fetch("https://around-api.en.tripleten-services.com/v1/cards", {
-  headers: {
-    authorization: "4135af44-f1c9-452d-8222-e09e3e6f1c85",
-  },
-})
-  .then((res) => res.json())
-  .then((result) => {
-    console.log(result);
-  });
+export default class Api {
+  constructor(id) {
+    this._id = id;
+    this._baseUrl = "https://around-api.en.tripleten-services.com/v1/";
+    this._authorization = "4135af44-f1c9-452d-8222-e09e3e6f1c85";
+  }
 
-class Api {
-  constructor(options) {}
+  loadUserInfo() {
+    return fetch(`${this._baseUrl}users/me`, {
+      headers: { authorization: `${this._authorization}` },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then((data) => {
+        return {
+          userName: data.name,
+          userJob: data.about,
+          avatar: data.avatar,
+        };
+      })
+      .catch((error) => {
+        console.error("Error loading user info:", error);
+      });
+  }
 
-  getInitialCards() {
-    return fetch("https://around-api.en.tripleten-services.com/v1", {
+  updateProfile(newInfo) {
+    return fetch(`${this._baseUrl}users/me`, {
+      method: "PATCH",
       headers: {
-        authorization: "c56e30dc-2883-4270-a59e-b2f7bae969c6",
+        authorization: `${this._authorization}`,
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        name: newInfo.title,
+        about: newInfo.description,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .catch((error) => console.error("Error updating user info:", error));
+  }
+
+  loadUserCards() {
+    return fetch(`${this._baseUrl}cards`, {
+      headers: { authorization: `${this._authorization}` },
     }).then((res) => {
       if (res.ok) {
         return res.json();
       }
-      // if the server returns an error, reject the promise
-      return Promise.reject(`Error: ${res.status}`);
     });
   }
+
+  addNewCard(info) {
+    return fetch(`${this._baseUrl}cards`, {
+      method: "POST",
+      headers: {
+        authorization: `${this._authorization}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: info.name,
+        link: info.link,
+        id: info._id,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .catch((error) => console.error(error));
+  }
+
+  deleteCard(id) {
+    return fetch(`${this._baseUrl}cards/${id}`, {
+      method: "DELETE",
+      headers: {
+        authorization: `${this._authorization}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return console.log("This post has been deleted");
+        }
+      })
+      .catch((error) => console.error(error));
+  }
+
+  likeCard(id, status) {
+    if (status === false) {
+      return fetch(`${this._baseUrl}cards/${id}/likes`, {
+        method: "PUT",
+        headers: {
+          authorization: `${this._authorization}`,
+          "Content-Type": "application/json",
+        },
+      }).then((res) => {
+        return console.log(res);
+      });
+    }
+    if (status === true) {
+      return fetch(`${this._baseUrl}cards/${id}/likes`, {
+        method: "DELETE",
+        headers: {
+          authorization: `${this._authorization}`,
+          "Content-Type": "application/json",
+        },
+      }).then((res) => {
+        return console.log(res);
+      });
+    }
+  }
+
+  updatePicture(link) {
+    return fetch(`${this._baseUrl}users/me/avatar`, {
+      method: "PATCH",
+      headers: {
+        authorization: `${this._authorization}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        avatar: link,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .catch((error) => console.error("Error updating user info:", error));
+  }
 }
-*/
