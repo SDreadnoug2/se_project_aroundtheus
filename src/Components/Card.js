@@ -38,10 +38,11 @@ export default class Card {
     if (apiExec === true) {
       apiExec;
       this._likeButton.classList.remove("cards__like-button_active");
-    }
-    if (apiExec === false) {
+      this._isLiked = false;
+    } else {
       apiExec;
       this._likeButton.classList.add("cards__like-button_active");
+      this._isLiked = true;
     }
   }
 
