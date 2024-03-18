@@ -28,11 +28,13 @@ import {
   confirmDelete,
   profilePicture,
   profilePictureContainer,
+  ppUpdateBox,
+  modalButtons,
 } from "../utils/constants.js";
 
 // Instantiation ---------------------------------------------------------------- //
 
-export const api = new Api();
+export const api = new Api(renderLoading);
 
 const cardSection = new Section(
   {
@@ -87,14 +89,10 @@ addButton.addEventListener("click", () => {
 
 imageAddPopup.setEventListeners();
 
-function handleAddSubmit(info) {
-  info.name = info.location;
-  api.addNewCard(info);
-  const cardObj = createCard(info);
-  cardSection.addItems(cardObj);
-  imageAddPopup.close();
-  addFormValidator.toggleButtonState();
-}
+profilePictureUpdate.setEventListeners();
+profilePictureContainer.addEventListener("click", () => {
+  profilePictureUpdate.open();
+});
 
 function handleDeleteConfirm(id, card) {
   confirmDeletePopup.open();
@@ -129,6 +127,16 @@ const userInfo = new UserInfo({
   userJob: ".profile__description",
 });
 
+function renderLoading(isLoading) {
+  if (isLoading) {
+    modalButtons.classList.remove(".modal__button");
+    modalButtons.classList.add(".modal__button_loading");
+  } else {
+    modalButtons.classList.add(".modal__button");
+    modalButtons.classList.remove(".modal__button_loading");
+  }
+}
+
 function handleProfileFormSubmit(info) {
   console.log(info);
   userInfo.setUserInfo(info);
@@ -136,7 +144,17 @@ function handleProfileFormSubmit(info) {
   api.updateProfile(info);
 }
 
-function handleProfilePictureUpdate(link) {}
+function handleAddSubmit(info) {
+  info.name = info.location;
+  api.addNewCard(info);
+  const cardObj = createCard(info);
+  cardSection.addItems(cardObj);
+}
+
+function handleProfilePictureUpdate(link) {
+  api.updatePicture(link.profilepicture);
+  profilePicture.src = link.profilepicture;
+}
 
 editButton.addEventListener("click", () => {
   const currentUser = userInfo.getUserInfo();
@@ -152,6 +170,7 @@ profileEditPopup.setEventListeners();
 
 const editFormValidator = new FormValidator(config, editModalBox);
 const addFormValidator = new FormValidator(config, addModalBox);
-
+const profilePictureValidator = new FormValidator(config, ppUpdateBox);
 editFormValidator.enableValidation();
 addFormValidator.enableValidation();
+profilePictureValidator.enableValidation();

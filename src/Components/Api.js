@@ -1,6 +1,6 @@
 export default class Api {
-  constructor(id) {
-    this._id = id;
+  constructor(loadinghandler) {
+    this._loadingHandler = loadinghandler;
     this._baseUrl = "https://around-api.en.tripleten-services.com/v1/";
     this._authorization = "4135af44-f1c9-452d-8222-e09e3e6f1c85";
   }
@@ -27,6 +27,8 @@ export default class Api {
   }
 
   updateProfile(newInfo) {
+    this._loadingHandler(true);
+    console.log("loading");
     return fetch(`${this._baseUrl}users/me`, {
       method: "PATCH",
       headers: {
@@ -43,20 +45,24 @@ export default class Api {
           return res.json();
         }
       })
-      .catch((error) => console.error("Error updating user info:", error));
+      .catch((error) => console.error("Error updating user info:", error))
+      .finally(this._loadingHandler(false));
   }
 
   loadUserCards() {
     return fetch(`${this._baseUrl}cards`, {
       headers: { authorization: `${this._authorization}` },
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-    });
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .catch((error) => console.error("Error updating user info:", error));
   }
 
   addNewCard(info) {
+    this._loadingHandler(true);
     return fetch(`${this._baseUrl}cards`, {
       method: "POST",
       headers: {
@@ -78,6 +84,7 @@ export default class Api {
   }
 
   deleteCard(id) {
+    this._loadingHandler(true);
     return fetch(`${this._baseUrl}cards/${id}`, {
       method: "DELETE",
       headers: {
@@ -101,9 +108,7 @@ export default class Api {
           authorization: `${this._authorization}`,
           "Content-Type": "application/json",
         },
-      }).then((res) => {
-        return console.log(res);
-      });
+      }).catch((error) => console.error(error));
     }
     if (status === true) {
       return fetch(`${this._baseUrl}cards/${id}/likes`, {
@@ -112,13 +117,12 @@ export default class Api {
           authorization: `${this._authorization}`,
           "Content-Type": "application/json",
         },
-      }).then((res) => {
-        return console.log(res);
-      });
+      }).catch((error) => console.error(error));
     }
   }
 
   updatePicture(link) {
+    this._loadingHandler(true);
     return fetch(`${this._baseUrl}users/me/avatar`, {
       method: "PATCH",
       headers: {
@@ -129,11 +133,7 @@ export default class Api {
         avatar: link,
       }),
     })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-      })
-      .catch((error) => console.error("Error updating user info:", error));
+      .catch((error) => console.error(error))
+      .finally(this._loadingHandler(false));
   }
 }
