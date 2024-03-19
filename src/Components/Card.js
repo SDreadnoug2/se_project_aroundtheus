@@ -1,13 +1,7 @@
 export default class Card {
-  constructor(
-    data,
-    cardSelector,
-    handleImageClick,
-    handleTrashConfirm,
-    handleLike
-  ) {
+  constructor(data, cardSelector, handleImageClick, handleTrash, handleLike) {
     this._handleLike = handleLike;
-    this._handleTrashConfirm = handleTrashConfirm;
+    this._handleTrash = handleTrash;
     this._cardSelector = cardSelector;
     this._isLiked = data.isLiked;
     this._name = data.name;
@@ -45,10 +39,6 @@ export default class Card {
     }
   }
 
-  _handleDelete() {
-    this._handleTrashConfirm(this._id, this._element);
-  }
-
   _setEventListeners() {
     this._cardImage.addEventListener("click", () => {
       const cardInfo = { name: this._name, link: this._link };
@@ -59,7 +49,8 @@ export default class Card {
     });
 
     this._deleteButton.addEventListener("click", () => {
-      this._handleDelete(this._id, this._element);
+      console.log("click");
+      this._handleTrash(this._id, this._element);
     });
   }
 

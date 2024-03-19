@@ -31,6 +31,7 @@ import {
   ppUpdateBox,
   modalButtons,
 } from "../utils/constants.js";
+import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
 
 // Instantiation ---------------------------------------------------------------- //
 
@@ -50,10 +51,7 @@ cardSection.renderItems();
 
 const imagePopup = new PopupWithImage({ popupSelector: "#expanded-modal" });
 const imageAddPopup = new PopupWithForm("#AddPlaceModal", handleAddSubmit);
-const confirmDeletePopup = new PopupWithForm(
-  "#ConfirmModal",
-  handleDeleteConfirm
-);
+const deletePopup = new PopupWithConfirmation("#ConfirmModal");
 const profileEditPopup = new PopupWithForm("#JSmodal", handleProfileFormSubmit);
 const profilePictureUpdate = new PopupWithForm(
   "#PPupdate",
@@ -74,12 +72,29 @@ function handleImageClick(data) {
   imagePopup.open(data);
 }
 
+function deleteSubmit(id, element) {
+  deletePopup.open();
+  deletePopup.confirmRemoval(() => {
+    deletePopup
+      .renderLoading(true)
+      .then(() => {
+        api.deleteCard(id);
+      })
+      .then(() => {
+        deletePopup.close();
+        element.remove();
+      })
+      .catch((error) => console.error(error));
+  });
+}
+
+deletePopup.setEventListeners();
 function createCard(data) {
   const userCard = new Card(
     data,
     "#card-template",
     handleImageClick,
-    handleDeleteOpen,
+    deleteSubmit,
     handleLike
   );
 
@@ -96,16 +111,6 @@ profilePictureUpdate.setEventListeners();
 profilePictureContainer.addEventListener("click", () => {
   profilePictureUpdate.open();
 });
-
-confirmDeletePopup.setEventListeners();
-function handleDeleteOpen() {
-  confirmDeletePopup.open();
-}
-
-function handleDeleteConfirm(id, element) {
-  api.deleteCard(id).then(() => element.remove());
-  confirmDeletePopup.close();
-}
 
 function handleLike(id, isliked) {
   api.likeCard(id, isliked);
