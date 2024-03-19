@@ -33,7 +33,6 @@ export default class Card {
   }
 
   _handleLikeIcon() {
-    console.log(this._isLiked);
     const apiExec = this._handleLike(this._id, this._isLiked);
     if (apiExec === true) {
       apiExec;
@@ -46,6 +45,10 @@ export default class Card {
     }
   }
 
+  _handleDelete() {
+    this._handleTrashConfirm(this._id, this._element);
+  }
+
   _setEventListeners() {
     this._cardImage.addEventListener("click", () => {
       const cardInfo = { name: this._name, link: this._link };
@@ -56,7 +59,7 @@ export default class Card {
     });
 
     this._deleteButton.addEventListener("click", () => {
-      this._handleTrashConfirm(this._id, this._element);
+      this._handleDelete(this._id, this._element);
     });
   }
 

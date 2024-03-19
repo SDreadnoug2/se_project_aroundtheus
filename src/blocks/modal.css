@@ -29,7 +29,7 @@
   position: relative;
 }
 
-.modal__container-confirm {
+.modal__form-confirm {
   background-color: white;
   border-radius: 10px;
   width: 430px;
@@ -37,6 +37,10 @@
   display: flex;
   flex-direction: column;
   position: relative;
+}
+
+.modal__heading-confirm {
+  padding-left: 0;
 }
 
 .modal__container-profilepicture {

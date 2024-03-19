@@ -50,7 +50,10 @@ cardSection.renderItems();
 
 const imagePopup = new PopupWithImage({ popupSelector: "#expanded-modal" });
 const imageAddPopup = new PopupWithForm("#AddPlaceModal", handleAddSubmit);
-const confirmDeletePopup = new Popup({ popupSelector: "#ConfirmModal" });
+const confirmDeletePopup = new PopupWithForm(
+  "#ConfirmModal",
+  handleDeleteConfirm
+);
 const profileEditPopup = new PopupWithForm("#JSmodal", handleProfileFormSubmit);
 const profilePictureUpdate = new PopupWithForm(
   "#PPupdate",
@@ -76,7 +79,7 @@ function createCard(data) {
     data,
     "#card-template",
     handleImageClick,
-    handleDeleteConfirm,
+    handleDeleteOpen,
     handleLike
   );
 
@@ -94,15 +97,14 @@ profilePictureContainer.addEventListener("click", () => {
   profilePictureUpdate.open();
 });
 
-function handleDeleteConfirm(id, card) {
+confirmDeletePopup.setEventListeners();
+function handleDeleteOpen() {
   confirmDeletePopup.open();
-  confirmDeletePopup.setEventListeners();
-  confirmDelete.addEventListener("click", (e) => {
-    e.preventDefault();
-    api.deleteCard(id);
-    card.remove();
-    confirmDeletePopup.close();
-  });
+}
+
+function handleDeleteConfirm(id, element) {
+  api.deleteCard(id).then(() => element.remove());
+  confirmDeletePopup.close();
 }
 
 function handleLike(id, isliked) {
@@ -138,17 +140,18 @@ function renderLoading(isLoading) {
 }
 
 function handleProfileFormSubmit(info) {
-  console.log(info);
-  userInfo.setUserInfo(info);
-  profileEditPopup.close();
-  api.updateProfile(info);
+  api.updateProfile(info).then(() => {
+    userInfo.setUserInfo(info);
+    profileEditPopup.close();
+  });
 }
 
 function handleAddSubmit(info) {
   info.name = info.location;
-  api.addNewCard(info);
-  const cardObj = createCard(info);
-  cardSection.addItems(cardObj);
+  api.addNewCard(info).then((res) => {
+    const cardObj = createCard(res);
+    cardSection.addItems(cardObj);
+  });
 }
 
 function handleProfilePictureUpdate(link) {

@@ -1,5 +1,6 @@
 export default class Api {
-  constructor(loadinghandler) {
+  constructor(loadinghandler, id) {
+    this._id = id;
     this._loadingHandler = loadinghandler;
     this._baseUrl = "https://around-api.en.tripleten-services.com/v1/";
     this._authorization = "4135af44-f1c9-452d-8222-e09e3e6f1c85";
