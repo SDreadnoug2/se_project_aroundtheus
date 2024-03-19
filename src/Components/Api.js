@@ -1,7 +1,6 @@
 export default class Api {
-  constructor(loadinghandler, id) {
+  constructor(id) {
     this._id = id;
-    this._loadingHandler = loadinghandler;
     this._baseUrl = "https://around-api.en.tripleten-services.com/v1/";
     this._authorization = "4135af44-f1c9-452d-8222-e09e3e6f1c85";
   }
@@ -28,8 +27,6 @@ export default class Api {
   }
 
   updateProfile(newInfo) {
-    this._loadingHandler(true);
-    console.log("loading");
     return fetch(`${this._baseUrl}users/me`, {
       method: "PATCH",
       headers: {
@@ -46,8 +43,7 @@ export default class Api {
           return res.json();
         }
       })
-      .catch((error) => console.error("Error updating user info:", error))
-      .finally(this._loadingHandler(false));
+      .catch((error) => console.error("Error updating user info:", error));
   }
 
   loadUserCards() {
@@ -63,7 +59,6 @@ export default class Api {
   }
 
   addNewCard(info) {
-    this._loadingHandler(true);
     return fetch(`${this._baseUrl}cards`, {
       method: "POST",
       headers: {
@@ -85,7 +80,6 @@ export default class Api {
   }
 
   deleteCard(id) {
-    this._loadingHandler(true);
     return fetch(`${this._baseUrl}cards/${id}`, {
       method: "DELETE",
       headers: {
@@ -123,7 +117,6 @@ export default class Api {
   }
 
   updatePicture(link) {
-    this._loadingHandler(true);
     return fetch(`${this._baseUrl}users/me/avatar`, {
       method: "PATCH",
       headers: {
@@ -133,8 +126,6 @@ export default class Api {
       body: JSON.stringify({
         avatar: link,
       }),
-    })
-      .catch((error) => console.error(error))
-      .finally(this._loadingHandler(false));
+    }).catch((error) => console.error(error));
   }
 }

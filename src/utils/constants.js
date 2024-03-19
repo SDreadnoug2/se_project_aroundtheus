@@ -42,4 +42,4 @@ export const profilePictureContainer = document.querySelector(
   ".profile__image-container"
 );
 export const ppUpdateBox = document.querySelector("#PPupdate");
-export const modalButtons = document.querySelector(".modal__button");
+export const modalButtons = document.querySelectorAll(".modal__button");

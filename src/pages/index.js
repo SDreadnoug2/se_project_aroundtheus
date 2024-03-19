@@ -34,7 +34,7 @@ import {
 
 // Instantiation ---------------------------------------------------------------- //
 
-export const api = new Api(renderLoading);
+export const api = new Api();
 
 const cardSection = new Section(
   {
@@ -129,34 +129,37 @@ const userInfo = new UserInfo({
   userJob: ".profile__description",
 });
 
-function renderLoading(isLoading) {
-  if (isLoading) {
-    modalButtons.classList.remove(".modal__button");
-    modalButtons.classList.add(".modal__button_loading");
-  } else {
-    modalButtons.classList.add(".modal__button");
-    modalButtons.classList.remove(".modal__button_loading");
-  }
-}
-
 function handleProfileFormSubmit(info) {
-  api.updateProfile(info).then(() => {
-    userInfo.setUserInfo(info);
-    profileEditPopup.close();
-  });
+  profileEditPopup.renderLoading(true);
+  api
+    .updateProfile(info)
+    .then(() => {
+      userInfo.setUserInfo(info);
+      profileEditPopup.close();
+    })
+    .finally(() => profileEditPopup.renderLoading(false));
 }
 
 function handleAddSubmit(info) {
+  imageAddPopup.renderLoading(true);
   info.name = info.location;
-  api.addNewCard(info).then((res) => {
-    const cardObj = createCard(res);
-    cardSection.addItems(cardObj);
-  });
+  api
+    .addNewCard(info)
+    .then((res) => {
+      const cardObj = createCard(res);
+      cardSection.addItems(cardObj);
+    })
+    .finally(() => imageAddPopup.renderLoading(false));
 }
 
 function handleProfilePictureUpdate(link) {
-  api.updatePicture(link.profilepicture);
-  profilePicture.src = link.profilepicture;
+  profilePictureUpdate.renderLoading(true);
+  api
+    .updatePicture(link.profilepicture)
+    .then(() => {
+      profilePicture.src = link.profilepicture;
+    })
+    .finally(() => profilePictureUpdate.renderLoading(false));
 }
 
 editButton.addEventListener("click", () => {
