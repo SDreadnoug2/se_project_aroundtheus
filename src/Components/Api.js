@@ -16,7 +16,7 @@ export default class Api {
     return fetch(`${this._baseUrl}users/me`, {
       headers: { authorization: `${this._authorization}` },
     })
-      .then((res) => this._checkResponse(res))
+      .then(this._checkResponse)
       .then((data) => {
         return {
           userName: data.name,
@@ -37,13 +37,13 @@ export default class Api {
         name: newInfo.title,
         about: newInfo.description,
       }),
-    }).then((res) => this._checkResponse(res));
+    }).then(this._checkResponse);
   }
 
   loadUserCards() {
     return fetch(`${this._baseUrl}cards`, {
       headers: { authorization: `${this._authorization}` },
-    }).then((res) => this._checkResponse(res));
+    }).then(this._checkResponse);
   }
 
   addNewCard(info) {
@@ -58,7 +58,7 @@ export default class Api {
         link: info.link,
         id: info._id,
       }),
-    }).then((res) => this._checkResponse(res));
+    }).then(this._checkResponse);
   }
 
   deleteCard(id) {
@@ -68,7 +68,7 @@ export default class Api {
         authorization: `${this._authorization}`,
         "Content-Type": "application/json",
       },
-    }).then((res) => this._checkResponse(res));
+    }).then(this._checkResponse);
   }
 
   likeCard(id, status) {
@@ -79,7 +79,7 @@ export default class Api {
           authorization: `${this._authorization}`,
           "Content-Type": "application/json",
         },
-      }).then((res) => this._checkResponse(res));
+      }).then(this._checkResponse);
     }
     if (status === true) {
       return fetch(`${this._baseUrl}cards/${id}/likes`, {
@@ -88,7 +88,7 @@ export default class Api {
           authorization: `${this._authorization}`,
           "Content-Type": "application/json",
         },
-      }).then((res) => this._checkResponse(res));
+      }).then(this._checkResponse);
     }
   }
 
@@ -102,6 +102,6 @@ export default class Api {
       body: JSON.stringify({
         avatar: link,
       }),
-    }).then((res) => this._checkResponse(res));
+    }).then(this._checkResponse);
   }
 }
