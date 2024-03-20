@@ -41,6 +41,9 @@ export default class PopupWithForm extends Popup {
       this._modalButton.textContent = "Saving...";
     } else {
       this._modalButton.textContent = "Saved!";
+      setTimeout(() => {
+        this._modalButton.textContent = "Save";
+      }, "500");
     }
   }
 }

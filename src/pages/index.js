@@ -75,11 +75,8 @@ function handleImageClick(data) {
 function deleteSubmit(id, element) {
   deletePopup.open();
   deletePopup.confirmRemoval(() => {
-    deletePopup
-      .renderLoading(true)
-      .then(() => {
-        api.deleteCard(id);
-      })
+    api
+      .deleteCard(id)
       .then(() => {
         deletePopup.close();
         element.remove();
@@ -123,11 +120,14 @@ function handleLike(id, isliked) {
 }
 
 // Edit Modal Functionality --------------------------------- //
-api.loadUserInfo().then((userInfoData) => {
-  profileName.textContent = userInfoData.userName;
-  profileDescription.textContent = userInfoData.userJob;
-  profilePicture.src = userInfoData.avatar;
-});
+api
+  .loadUserInfo()
+  .then((userInfoData) => {
+    profileName.textContent = userInfoData.userName;
+    profileDescription.textContent = userInfoData.userJob;
+    profilePicture.src = userInfoData.avatar;
+  })
+  .catch((error) => console.error(error));
 
 const userInfo = new UserInfo({
   userName: ".profile__name",
@@ -142,7 +142,11 @@ function handleProfileFormSubmit(info) {
       userInfo.setUserInfo(info);
       profileEditPopup.close();
     })
-    .finally(() => profileEditPopup.renderLoading(false));
+    .then(() => profileEditPopup.renderLoading(false))
+    .catch((error) => console.error(error))
+    .finally(() => {
+      editFormValidator.toggleButtonState();
+    });
 }
 
 function handleAddSubmit(info) {
@@ -154,7 +158,11 @@ function handleAddSubmit(info) {
       const cardObj = createCard(res);
       cardSection.addItems(cardObj);
     })
-    .finally(() => imageAddPopup.renderLoading(false));
+    .then(() => imageAddPopup.renderLoading(false))
+    .catch((error) => console.error(error))
+    .finally(() => {
+      addFormValidator.toggleButtonState();
+    });
 }
 
 function handleProfilePictureUpdate(link) {
@@ -164,7 +172,11 @@ function handleProfilePictureUpdate(link) {
     .then(() => {
       profilePicture.src = link.profilepicture;
     })
-    .finally(() => profilePictureUpdate.renderLoading(false));
+    .then(() => profilePictureUpdate.renderLoading(false))
+    .catch((error) => console.error(error))
+    .finally(() => {
+      profilePictureValidator.toggleButtonState();
+    });
 }
 
 editButton.addEventListener("click", () => {
