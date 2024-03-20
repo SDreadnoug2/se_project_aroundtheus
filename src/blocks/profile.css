@@ -23,6 +23,10 @@
   position: absolute;
 }
 
+.profile__image-container:hover .profile__image {
+  opacity: 0.6;
+}
+
 .profile__image_edit {
   background: transparent url(../images/edit_profile.svg) center no-repeat;
   position: absolute;
