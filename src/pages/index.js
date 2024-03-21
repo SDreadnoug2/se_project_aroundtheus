@@ -2,7 +2,6 @@ import Api from "../components/Api.js";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
-import Popup from "../components/Popup.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
@@ -35,21 +34,20 @@ import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
 
 // Instantiation ---------------------------------------------------------------- //
 
-export const api = new Api();
+export const api = new Api(
+  "https://around-api.en.tripleten-services.com/v1/",
+  "4135af44-f1c9-452d-8222-e09e3e6f1c85"
+);
 
 const cardSection = new Section(
   {
     items: [],
     renderer: (card) => {
-      cardSection
-        .addItems(createCard(card))
-        .catch((error) => console.error(error));
+      cardSection.addItems(createCard(card));
     },
   },
   cardListEl
 );
-
-cardSection.renderItems();
 
 const imagePopup = new PopupWithImage({ popupSelector: "#expanded-modal" });
 const imageAddPopup = new PopupWithForm("#AddPlaceModal", handleAddSubmit);
@@ -67,16 +65,14 @@ const userInfo = new UserInfo({
 
 // Add Modal Functionality ---------------------------------------- //
 function loadAllcards() {
-  return new Promise((resolve, reject) => {
+  return new Promise(() => {
     api
       .loadUserCards()
       .then((cardInfo) => {
-        cardInfo.forEach((element) => {
-          cardSection.addItems(createCard(element));
-        });
+        cardSection.setItems(cardInfo);
+        cardSection.renderItems();
       })
-      .then(() => resolve())
-      .catch((error) => reject(error));
+      .catch((error) => console.error(error));
   });
 }
 
@@ -125,14 +121,12 @@ profilePictureContainer.addEventListener("click", () => {
 });
 
 function handleLike(id, isliked) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     api
       .likeCard(id, isliked)
-      .then(() => {
-        resolve();
-      })
+      .then(() => resolve())
       .catch((error) => {
-        reject(error);
+        console.error(error);
       });
   });
 }
@@ -142,23 +136,25 @@ api
   .loadUserInfo()
   .then((userInfoData) => {
     console.log(userInfoData);
-    userInfo.setUserProfile(userInfoData);
+    userInfo.setUserInfo(userInfoData);
+    userInfo.setUserPicture(userInfoData);
   })
   .catch((error) => console.error(error));
 
 function handleProfileFormSubmit(info) {
-  return new Promise((resolve, reject) => {
+  return new Promise(() => {
     console.log(info);
     profileEditPopup.renderLoading(true);
     api
       .updateProfile(info)
       .then(() => {
         userInfo.setUserInfo(info);
+      })
+      .then(() => {
+        editFormValidator.toggleButtonState();
         profileEditPopup.close();
       })
-      .then(() => resolve())
-      .then(() => editFormValidator.toggleButtonState())
-      .catch((error) => reject(error))
+      .catch((error) => console.error(error))
       .finally(() => {
         profileEditPopup.renderLoading(false);
       });
@@ -168,16 +164,18 @@ function handleProfileFormSubmit(info) {
 function handleAddSubmit(info) {
   imageAddPopup.renderLoading(true);
   info.name = info.location;
-  return new Promise((resolve, reject) => {
+  return new Promise(() => {
     api
       .addNewCard(info)
       .then((res) => {
         const cardObj = createCard(res);
         cardSection.addItems(cardObj);
       })
-      .then(() => resolve())
-      .then(() => addFormValidator.toggleButtonState())
-      .catch((error) => reject(error))
+      .then(() => {
+        addFormValidator.toggleButtonState();
+        imageAddPopup.close();
+      })
+      .catch((error) => console.error(error))
       .finally(() => {
         imageAddPopup.renderLoading(false);
       });
@@ -185,17 +183,17 @@ function handleAddSubmit(info) {
 }
 
 function handleProfilePictureUpdate(link) {
-  return new Promise((resolve, reject) => {
+  return new Promise(() => {
     profilePictureUpdate.renderLoading(true);
     api
-      .updatePicture(link.profilepicture)
-      .then(() => {
-        profilePicture.src = link.profilepicture;
+      .updatePicture(link)
+      .then((res) => {
+        userInfo.setUserPicture(res);
       })
-      .then(() => resolve())
-      .catch((error) => reject(error))
+      .then(() => profilePictureValidator.toggleButtonState())
+      .catch((error) => console.error(error))
       .finally(() => {
-        profilePictureValidator.toggleButtonState();
+        profilePictureUpdate.close();
         profilePictureUpdate.renderLoading(false);
       });
   });

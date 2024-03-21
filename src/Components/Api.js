@@ -1,10 +1,8 @@
 export default class Api {
-  constructor(id) {
-    this._id = id;
-    this._baseUrl = "https://around-api.en.tripleten-services.com/v1/";
-    this._authorization = "4135af44-f1c9-452d-8222-e09e3e6f1c85";
+  constructor(baseUrl, authorization) {
+    this._baseUrl = baseUrl;
     this._headers = {
-      authorization: "4135af44-f1c9-452d-8222-e09e3e6f1c85",
+      authorization: authorization,
       "Content-Type": "application/json",
     };
   }
@@ -85,7 +83,7 @@ export default class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        avatar: link,
+        avatar: link.avatar,
       }),
     }).then(this._checkResponse);
   }

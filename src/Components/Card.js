@@ -28,14 +28,15 @@ export default class Card {
 
   _handleLikeIcon() {
     if (!this._isLiked) {
+      console.log("LIKED");
       this._handleLike(this._id, this._isLiked)
         .then(() => {
           this._likeButton.classList.add("cards__like-button_active");
           this._isLiked = true;
         })
         .catch((error) => console.error(error));
-    }
-    if (this._isLiked) {
+    } else if (this._isLiked) {
+      console.log("unliked");
       this._handleLike(this._id, this._isLiked)
         .then(() => {
           this._likeButton.classList.remove("cards__like-button_active");
@@ -55,7 +56,6 @@ export default class Card {
     });
 
     this._deleteButton.addEventListener("click", () => {
-      console.log("click");
       this._handleTrash(this._id, this._element);
     });
   }
