@@ -31,8 +31,9 @@ export default class PopupWithForm extends Popup {
     console.log();
     this._popupForm.addEventListener("submit", (evt) => {
       evt.preventDefault();
-      this._submitFunction(this._getInputValues());
-      this.close();
+      this._submitFunction(this._getInputValues()).then(() => {
+        this.close();
+      });
     });
   }
 
@@ -42,8 +43,8 @@ export default class PopupWithForm extends Popup {
     } else {
       this._modalButton.textContent = "Saved!";
       setTimeout(() => {
-        this._modalButton.textContent = "Save";
-      }, "500");
+        this._modalButton.textContent = this._modalButtonText;
+      }, 500);
     }
   }
 }

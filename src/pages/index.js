@@ -41,7 +41,9 @@ const cardSection = new Section(
   {
     items: [],
     renderer: (card) => {
-      cardSection.addItems(createCard(card));
+      cardSection
+        .addItems(createCard(card))
+        .catch((error) => console.error(error));
     },
   },
   cardListEl
@@ -57,15 +59,28 @@ const profilePictureUpdate = new PopupWithForm(
   "#PPupdate",
   handleProfilePictureUpdate
 );
-
-// Add Modal Functionality ---------------------------------------- //
-
-api.loadUserCards().then((cardInfo) => {
-  cardInfo.forEach((element) => {
-    cardSection.addItems(createCard(element));
-  });
+const userInfo = new UserInfo({
+  userName: ".profile__name",
+  userJob: ".profile__description",
+  userAvatar: ".profile__image",
 });
 
+// Add Modal Functionality ---------------------------------------- //
+function loadAllcards() {
+  return new Promise((resolve, reject) => {
+    api
+      .loadUserCards()
+      .then((cardInfo) => {
+        cardInfo.forEach((element) => {
+          cardSection.addItems(createCard(element));
+        });
+      })
+      .then(() => resolve())
+      .catch((error) => reject(error));
+  });
+}
+
+loadAllcards();
 imagePopup.setEventListeners();
 
 function handleImageClick(data) {
@@ -74,7 +89,7 @@ function handleImageClick(data) {
 
 function deleteSubmit(id, element) {
   deletePopup.open();
-  deletePopup.confirmRemoval(() => {
+  deletePopup.handleConfirm(() => {
     api
       .deleteCard(id)
       .then(() => {
@@ -110,73 +125,80 @@ profilePictureContainer.addEventListener("click", () => {
 });
 
 function handleLike(id, isliked) {
-  api.likeCard(id, isliked);
-  if (isliked === true) {
-    return true;
-  }
-  if (isliked === false) {
-    return false;
-  }
+  return new Promise((resolve, reject) => {
+    api
+      .likeCard(id, isliked)
+      .then(() => {
+        resolve();
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 }
 
 // Edit Modal Functionality --------------------------------- //
 api
   .loadUserInfo()
   .then((userInfoData) => {
-    profileName.textContent = userInfoData.userName;
-    profileDescription.textContent = userInfoData.userJob;
-    profilePicture.src = userInfoData.avatar;
+    console.log(userInfoData);
+    userInfo.setUserProfile(userInfoData);
   })
   .catch((error) => console.error(error));
 
-const userInfo = new UserInfo({
-  userName: ".profile__name",
-  userJob: ".profile__description",
-});
-
 function handleProfileFormSubmit(info) {
-  profileEditPopup.renderLoading(true);
-  api
-    .updateProfile(info)
-    .then(() => {
-      userInfo.setUserInfo(info);
-      profileEditPopup.close();
-    })
-    .then(() => profileEditPopup.renderLoading(false))
-    .catch((error) => console.error(error))
-    .finally(() => {
-      editFormValidator.toggleButtonState();
-    });
+  return new Promise((resolve, reject) => {
+    console.log(info);
+    profileEditPopup.renderLoading(true);
+    api
+      .updateProfile(info)
+      .then(() => {
+        userInfo.setUserInfo(info);
+        profileEditPopup.close();
+      })
+      .then(() => resolve())
+      .then(() => editFormValidator.toggleButtonState())
+      .catch((error) => reject(error))
+      .finally(() => {
+        profileEditPopup.renderLoading(false);
+      });
+  });
 }
 
 function handleAddSubmit(info) {
   imageAddPopup.renderLoading(true);
   info.name = info.location;
-  api
-    .addNewCard(info)
-    .then((res) => {
-      const cardObj = createCard(res);
-      cardSection.addItems(cardObj);
-    })
-    .then(() => imageAddPopup.renderLoading(false))
-    .catch((error) => console.error(error))
-    .finally(() => {
-      addFormValidator.toggleButtonState();
-    });
+  return new Promise((resolve, reject) => {
+    api
+      .addNewCard(info)
+      .then((res) => {
+        const cardObj = createCard(res);
+        cardSection.addItems(cardObj);
+      })
+      .then(() => resolve())
+      .then(() => addFormValidator.toggleButtonState())
+      .catch((error) => reject(error))
+      .finally(() => {
+        imageAddPopup.renderLoading(false);
+      });
+  });
 }
 
 function handleProfilePictureUpdate(link) {
-  profilePictureUpdate.renderLoading(true);
-  api
-    .updatePicture(link.profilepicture)
-    .then(() => {
-      profilePicture.src = link.profilepicture;
-    })
-    .then(() => profilePictureUpdate.renderLoading(false))
-    .catch((error) => console.error(error))
-    .finally(() => {
-      profilePictureValidator.toggleButtonState();
-    });
+  return new Promise((resolve, reject) => {
+    profilePictureUpdate.renderLoading(true);
+    api
+      .updatePicture(link.profilepicture)
+      .then(() => {
+        profilePicture.src = link.profilepicture;
+      })
+      .then(() => resolve())
+      .catch((error) => reject(error))
+      .finally(() => {
+        profilePictureValidator.toggleButtonState();
+        profilePictureUpdate.renderLoading(false);
+      });
+  });
 }
 
 editButton.addEventListener("click", () => {

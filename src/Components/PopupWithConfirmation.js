@@ -6,7 +6,7 @@ export default class PopupWithConfirmation extends Popup {
     this._button = this._popupElement.querySelector(".modal__button");
   }
 
-  confirmRemoval(yes) {
+  handleConfirm(yes) {
     this._handleSubmit = yes;
   }
   setEventListeners() {

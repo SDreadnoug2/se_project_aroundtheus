@@ -27,15 +27,21 @@ export default class Card {
   }
 
   _handleLikeIcon() {
-    const apiExec = this._handleLike(this._id, this._isLiked);
-    if (apiExec === true) {
-      apiExec;
-      this._likeButton.classList.remove("cards__like-button_active");
-      this._isLiked = false;
-    } else {
-      apiExec;
-      this._likeButton.classList.add("cards__like-button_active");
-      this._isLiked = true;
+    if (!this._isLiked) {
+      this._handleLike(this._id, this._isLiked)
+        .then(() => {
+          this._likeButton.classList.add("cards__like-button_active");
+          this._isLiked = true;
+        })
+        .catch((error) => console.error(error));
+    }
+    if (this._isLiked) {
+      this._handleLike(this._id, this._isLiked)
+        .then(() => {
+          this._likeButton.classList.remove("cards__like-button_active");
+          this._isLiked = false;
+        })
+        .catch((error) => console.error(error));
     }
   }
 
