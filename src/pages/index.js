@@ -63,14 +63,6 @@ const userInfo = new UserInfo({
   userAvatar: ".profile__image",
 });
 
-// -------------CARD FUNCTIONALITY------------- //
-
-// -------------ADD MODAL FUNCTIONALITY-------------//
-
-// -------------EDIT MODAL FUNCTIONALITY-------------//
-
-// -------------PROFILE PICTURE FUNCTIONALITY-------------//
-
 function loadAllcards() {
   return new Promise(() => {
     api
@@ -128,9 +120,7 @@ profilePictureContainer.addEventListener("click", () => {
 });
 
 function handleLike(id, isliked) {
-  api.likeCard(id, isliked).catch((error) => {
-    console.error(error);
-  });
+  return api.likeCard(id, isliked);
 }
 
 // Edit Modal Functionality --------------------------------- //
